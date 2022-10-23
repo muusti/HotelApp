@@ -32,6 +32,7 @@ namespace DataAccess.Services
                      LastNameDisplay = c.LastName,
                      CustomerRoom = c.CustomerRoom,
                      DateOfBirthDisplay = c.DateOfBirth.Value.ToString("MM/dd/yyyy"),
+                     
                      CustomerDetails = new CustomerDetails()
                      {
                          AddressDisplay = c.CustomerDetails.Address,

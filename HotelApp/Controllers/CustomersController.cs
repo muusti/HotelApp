@@ -89,7 +89,7 @@ namespace HotelApp.Controllers
             return View(customer);
         }
 
-      
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Customer customer)
