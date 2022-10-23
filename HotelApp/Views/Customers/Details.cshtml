@@ -1,0 +1,75 @@
+﻿@model DataAccess.Entities.Customer
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>Customer</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.NameDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.NameDisplay)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.LastNameDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.LastNameDisplay)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.DateOfBirthDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.DateOfBirthDisplay)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.GenderDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.GenderDisplay)
+        </dd>
+         <dt class="col-2">
+            @Html.DisplayNameFor(model => model.CustomerDetails.EmailDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.CustomerDetails.EmailDisplay)
+        </dd>
+            <dt class="col-2">
+            @Html.DisplayNameFor(model => model.CustomerDetails.AddressDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.CustomerDetails.AddressDisplay)
+        </dd>
+            <dt class="col-2">
+            @Html.DisplayNameFor(model => model.CustomerDetails.IdentificationNoDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.CustomerDetails.IdentificationNoDisplay)
+        </dd>
+            <dt class="col-2">
+            @Html.DisplayNameFor(model => model.CustomerDetails.Country.Name)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.CustomerDetails.Country.Name)
+        </dd>
+            <dt class="col-2">
+            @Html.DisplayNameFor(model => model.CustomerDetails.City.Name)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.CustomerDetails.City.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>&nbsp;|&nbsp;
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+

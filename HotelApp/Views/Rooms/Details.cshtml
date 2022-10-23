@@ -1,0 +1,57 @@
+﻿@model DataAccess.Entities.Room
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>Room</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.RoomNo)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.RoomNo)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.IsEmptyDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.IsEmptyDisplay)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.DailyPriceDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.DailyPriceDisplay)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.Hotel)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.Hotel.Name)
+        </dd>
+                 <dt class="col-2">
+            @Html.DisplayNameFor(model => model.RoomFeatures.RoomType)
+        </dt>
+          <dd class="col-10">
+            @Html.DisplayFor(model => model.RoomFeatures.RoomType)
+        </dd>
+          <dt class="col-2">
+            @Html.DisplayNameFor(model => model.RoomFeatures.m2)
+        </dt>
+          <dd class="col-10">
+            @Html.DisplayFor(model => model.RoomFeatures.m2)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>&nbsp;|&nbsp;
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+
