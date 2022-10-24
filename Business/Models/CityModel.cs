@@ -17,7 +17,6 @@ namespace Business.Models
 
         public CountryModel? Country { get; set; }
 
-        public List<CustomerDetails>? CustomerDetails { get; set; }
         public List<HotelModel>? Hotels { get; set; }
     }
 }

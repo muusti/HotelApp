@@ -48,8 +48,9 @@ namespace HotelApp.Controllers
 
         public IActionResult Create()
         {
-            ViewBag.HotelId = new SelectList(_hotelService.GetList(), "Id", "Name");
-            ViewBag.RoomId = new SelectList(_roomService.GetList(), "Id", "Name");
+            
+            ViewBag.HotelIds = new SelectList(_hotelService.GetList(), "Id", "Name");
+            ViewBag.RoomIds = new SelectList(_roomService.GetList().Where(r => r.CustomerRoom.Any(cr => cr.ReleaseDate == null || cr.ReleaseDate <= DateTime.Now)), "Id", "RoomNo");
             ViewBag.CountryId = new SelectList(_countryService.GetList(), "Id", "Name");
             ViewBag.CityId = new SelectList(_cityService.GetList(), "Id", "Name");
             return View();
@@ -71,10 +72,10 @@ namespace HotelApp.Controllers
                 }
                 ModelState.AddModelError("", result.Message);
             }
-            ViewBag.HotelId = new SelectList(_hotelService.GetList(), "Id", "Name", customer.CustomerHotels.Select(h => h.HotelId));
-            //      ViewBag.RoomId = new SelectList(_roomService.GetList(), "Id", "Name", customer.CustomerRoom.Select(c => c.RoomId));
-            ViewBag.CountryId = new SelectList(_countryService.GetList(), "Id", "Name", customer.CustomerDetails.CountryId);
-            ViewBag.CityId = new SelectList(_cityService.GetList(), "Id", "Name", customer.CustomerDetails.CityId);
+            ViewBag.CountryId = new SelectList(_countryService.GetList(), "Id", "Name", customer.CountryId);
+            ViewBag.CityId = new SelectList(_cityService.GetList(), "Id", "Name", customer.CityId);
+            ViewBag.RoomIds = new SelectList(_roomService.GetList().Where(r => r.CustomerRoom.Any(cr => cr.DateOfEntry == null || cr.ReleaseDate <= DateTime.Now)), "Id", "RoomNo");
+            ViewBag.HotelIds = new SelectList(_hotelService.GetList(), "Id", "Name");
             return View(customer);
         }
 

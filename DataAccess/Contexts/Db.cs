@@ -16,9 +16,7 @@ namespace DataAccess.Contexts
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomFeatures> RoomsFeatures { get; set; }
         public DbSet<CustomerRoom> CustomerRooms { get; set; }
-        public DbSet<CustomerHotel> CustomerHotel { get; set; }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<CustomerDetails> CustomerDetails { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
 
@@ -29,17 +27,11 @@ namespace DataAccess.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CustomerHotel>()
-                .HasKey(cr => new { cr.CustomerId, cr.HotelId });
 
             modelBuilder.Entity<CustomerRoom>()
             .HasKey(cr => new { cr.CustomerId, cr.RoomId });
 
-            modelBuilder.Entity<CustomerDetails>()
-                .HasOne(c => c.Customer)
-                .WithOne(c => c.CustomerDetails)
-                .HasForeignKey<CustomerDetails>(c => c.CustomerId)
-                .OnDelete(DeleteBehavior.NoAction);
+        
 
             modelBuilder.Entity<Room>()
                 .HasOne(r => r.Hotel)
@@ -59,15 +51,15 @@ namespace DataAccess.Contexts
                 .HasForeignKey(c => c.CountryId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<CustomerDetails>()
-                .HasOne(cd => cd.Country)
-                .WithMany(c => c.CustomerDetails)
+            modelBuilder.Entity<Customer>()
+                .HasOne(c => c.Country)
+                .WithMany(c => c.Customer)
                 .HasForeignKey(cd => cd.CountryId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<CustomerDetails>()
-                .HasOne(cd => cd.City)
-                .WithMany(c => c.CustomerDetails)
+            modelBuilder.Entity<Customer>()
+                .HasOne(c => c.City)
+                .WithMany(c => c.Customer)
                 .HasForeignKey(cd => cd.CityId)
                 .OnDelete(DeleteBehavior.NoAction);
 
@@ -82,8 +74,6 @@ namespace DataAccess.Contexts
                 .WithMany(c => c.Hotels)
                 .HasForeignKey(h => h.CityId)
                 .OnDelete(DeleteBehavior.NoAction);
-
-
 
         }
     }

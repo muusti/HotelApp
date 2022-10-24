@@ -26,7 +26,6 @@ namespace DataAccess.Entities
         public Country? Country { get; set; }
 
         public List<Room>? Rooms { get; set; }
-        public List<CustomerHotel>? CustomerHotel { get; set; }
 
 
     }

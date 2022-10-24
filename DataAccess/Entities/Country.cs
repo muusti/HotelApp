@@ -11,7 +11,7 @@ namespace DataAccess.Entities
         [StringLength(150)]
         public string? Name { get; set; }
         public List<City>? Cities { get; set; }
-        public List<CustomerDetails>? CustomerDetails { get; set; }
+        public List<Customer>? Customer { get; set; }
         public List<Hotel>? Hotels { get; set; }
     }
 }

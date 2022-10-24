@@ -24,61 +24,86 @@
             <th>
                 @Html.DisplayNameFor(model => model.GenderDisplay)
             </th>
-              <th>
-                @Html.DisplayNameFor(model => model.CustomerDetails.AddressDisplay)
+            <th>
+                @Html.DisplayNameFor(model => model.AddressDisplay)
             </th>
-              <th>
-                @Html.DisplayNameFor(model => model.CustomerDetails.City.Name)
+            <th>
+                @Html.DisplayNameFor(model => model.City.Name)
             </th>
-              <th>
-                @Html.DisplayNameFor(model => model.CustomerDetails.Country.Name)
+            <th>
+                @Html.DisplayNameFor(model => model.Country.Name)
             </th>
-              <th>
-                @Html.DisplayNameFor(model => model.CustomerDetails.EmailDisplay)
+            <th>
+                @Html.DisplayNameFor(model => model.EmailDisplay)
             </th>
-              <th>
-                @Html.DisplayNameFor(model => model.CustomerDetails.PhoneNumberDisplay)
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumberDisplay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerRoomRoomNoDisplay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerRoomHotelNameDisplay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfEntryDisplay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReleaseDateDisplay)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-		@foreach (var item in Model) {
-				<tr>
-					<td>
-						@Html.DisplayFor(modelItem => item.NameDisplay)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.LastNameDisplay)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.DateOfBirthDisplay)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.GenderDisplay)
-					</td>
-                    <td>
-						@Html.DisplayFor(modelItem => item.CustomerDetails.AddressDisplay)
-					</td>
-                      <td>
-						@Html.DisplayFor(modelItem => item.CustomerDetails.City.Name)
-					</td>
-                      <td>
-						@Html.DisplayFor(modelItem => item.CustomerDetails.Country.Name)
-					</td>
-                      <td>
-						@Html.DisplayFor(modelItem => item.CustomerDetails.EmailDisplay)
-					</td>
-                      <td>
-						@Html.DisplayFor(modelItem => item.CustomerDetails.PhoneNumberDisplay)
-					</td>
-					<td>
-						<a asp-action="Details" asp-route-id="@item.Id">Details</a>&nbsp;|&nbsp;
-						<a asp-action="Edit" asp-route-id="@item.Id">Edit</a>&nbsp;|&nbsp;
-						<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-					</td>
-				</tr>
-		}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameDisplay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastNameDisplay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfBirthDisplay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GenderDisplay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AddressDisplay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailDisplay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumberDisplay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerRoomRoomNoDisplay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerRoomHotelNameDisplay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem =>  item.DateOfEntryDisplay)
+            </td>
+                <td>
+                   @Html.DisplayFor(modelItem => item.ReleaseDateDisplay)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>&nbsp;|&nbsp;
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>&nbsp;|&nbsp;
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 

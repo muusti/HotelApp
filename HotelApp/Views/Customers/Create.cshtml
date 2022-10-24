@@ -44,77 +44,120 @@
             </div>
 
             <div class="row mb-3">
-                <label asp-for="CustomerDetails.PhoneNumber" class="col-2 col-form-label"></label>
+                <label asp-for="PhoneNumber" class="col-2 col-form-label"></label>
                 <div class="col-5">
-                    <input asp-for="CustomerDetails.PhoneNumber" class="form-control" />
-                    <span asp-validation-for="CustomerDetails.PhoneNumber" class="text-danger"></span>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="row mb-3">
-                <label asp-for="CustomerDetails.IdentificationNo" class="col-2 col-form-label"></label>
+                <label asp-for="IdentificationNo" class="col-2 col-form-label"></label>
                 <div class="col-5">
-                    <input asp-for="CustomerDetails.IdentificationNo" class="form-control" />
-                    <span asp-validation-for="CustomerDetails.IdentificationNo" class="text-danger"></span>
+                    <input asp-for="IdentificationNo" class="form-control" />
+                    <span asp-validation-for="IdentificationNo" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="row mb-3">
-                <label asp-for="CustomerDetails.Email" class="col-2 col-form-label"></label>
+                <label asp-for="Email" class="col-2 col-form-label"></label>
                 <div class="col-5">
-                    <input asp-for="CustomerDetails.Email" class="form-control" />
-                    <span asp-validation-for="CustomerDetails.Email" class="text-danger"></span>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
             </div>
+
             <div class="row mb-3">
-                <label asp-for="CustomerDetails.Address" class="col-2 col-form-label"></label>
+                <label asp-for="Address" class="col-2 col-form-label"></label>
                 <div class="col-5">
-                    <input asp-for="CustomerDetails.Address" class="form-control" />
-                    <span asp-validation-for="CustomerDetails.Address" class="text-danger"></span>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
                 </div>
-
-                <div class="form-group">
-                    <label asp-for="CustomerDetails.CountryId" class="control-label"></label>
-                    <select asp-for="CustomerDetails.CountryId" class="form-control" asp-items="ViewBag.CountryId">
-                        <option value="">-- Select --</option>
-                    </select>
-                    <span asp-validation-for="CustomerDetails.CountryId" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="CustomerDetails.CityId" class="control-label"></label>
-                    <select asp-for="CustomerDetails.CityId" class="form-control" asp-items="ViewBag.CityId">
-                        <option value="">-- Select --</option>
-                    </select>
-                    <span asp-validation-for="CustomerDetails.CityId" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="CustomerHotels" class="control-label"></label>
-                    <select asp-for="CustomerHotels" class="form-control" asp-items="ViewBag.HotelId">
-                        <option value="">-- Select --</option>
-                    </select>
-                    <span asp-validation-for="CustomerHotels" class="text-danger"></span>
-
-                </div>
-@*
-                <div class="row mb-3">
-                    <label asp-for="CustomerHotels.Select(c=>c.DateOfEntry)" class="col-2 col-form-label"></label>
-                    <div class="col-5">
-                        <input asp-for="CustomerHotels.Select(c=>c.DateOfEntry)" class="form-control" />
-                        <span asp-validation-for="CustomerHotels.Select(c=>c.DateOfEntry)" class="text-danger"></span>
-                    </div>
-                </div>*@
-                @* <div class="form-group">
-                <label asp-for="CustomerRoom" class="control-label"></label>
-                <select asp-for="CustomerRoom" class="form-control" asp-items="ViewBag.RoomId">
-                <option value="">-- Select --</option>
+            </div>
+            <div class="form-group">
+                <label asp-for="CountryId" class="control-label"></label>
+                <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryId">
+                    <option value="">-- Select --</option>
                 </select>
-                <span asp-validation-for="CustomerRoom" class="text-danger"></span>
-
-                </div>*@
-
+                <span asp-validation-for="CountryId" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="CityId" class="control-label"></label>
+                <select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId">
+                    <option value="">-- Select --</option>
+                </select>
+                <span asp-validation-for="CityId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="HotelIds" class="control-label"></label>
+                <select asp-for="HotelIds" class="form-control" asp-items="ViewBag.HotelIds">
+                    <option value="">-- Select --</option>
+                </select>
+                <span asp-validation-for="HotelIds" class="text-danger"></span>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="RoomIds" class="control-label"></label>
+                <select asp-for="RoomIds" class="form-control" asp-items="ViewBag.RoomIds">
+                    <option value="">-- Select --</option>
+                </select>
+                <span asp-validation-for="RoomIds" class="text-danger"></span>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="CustomerRoomDisplay.DateOfEntry" class="col-2 col-form-label"></label>
+                <div class="col-5">
+                    <input asp-for="CustomerRoomDisplay.DateOfEntry" class="form-control" />
+                    <span asp-validation-for="CustomerRoomDisplay.DateOfEntry" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="CustomerRoomDisplay.ReleaseDate" class="col-2 col-form-label"></label>
+                <div class="col-5">
+                    <input asp-for="CustomerRoomDisplay.ReleaseDate" class="form-control" />
+                    <span asp-validation-for="CustomerRoomDisplay.ReleaseDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            @*<div class="row mb-3">
+            <label asp-for="DateOfEntry" class="col-2 col-form-label"></label>
+            <div class="col-5">
+            <input asp-for="DateOfBirth" class="form-control" />
+            <span asp-validation-for="DateOfEntry" class="text-danger"></span>
+            </div>
+            </div>*@
+
+
+            @* <div class="row mb-3">
+            <label asp-for="RoomIds" class="col-2 col-form-label"></label>
+            <div class="col-5">
+            <select asp-for="RoomIds" class="form-control" asp-items="ViewBag.RoomIds">
+            <option value="">-- Select --</option>
+            </select>
+            </div>
+            </div>*@
+
+
+            @*
+            <div class="row mb-3">
+            <label asp-for="CustomerHotels.Select(c=>c.DateOfEntry)" class="col-2 col-form-label"></label>
+            <div class="col-5">
+            <input asp-for="CustomerHotels.Select(c=>c.DateOfEntry)" class="form-control" />
+            <span asp-validation-for="CustomerHotels.Select(c=>c.DateOfEntry)" class="text-danger"></span>
+            </div>
+            </div>*@
+            @* <div class="form-group">
+            <label asp-for="CustomerRoom" class="control-label"></label>
+            <select asp-for="CustomerRoom" class="form-control" asp-items="ViewBag.RoomId">
+            <option value="">-- Select --</option>
+            </select>
+            <span asp-validation-for="CustomerRoom" class="text-danger"></span>
+
+            </div>*@
+
 
             <div class="row mb-3">
                 <div class="offset-2 col-5">

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccess.Entities
@@ -15,5 +16,12 @@ namespace DataAccess.Entities
         [Column(Order = 1)]
         public int? RoomId { get; set; }
         public Room? Room { get; set; }
+
+        [DisplayName("Hotel Check-In Date")]
+        public DateTime? DateOfEntry { get; set; }
+
+        [DisplayName("Hotel Check-Out Date")]
+
+        public DateTime? ReleaseDate { get; set; }
     }
 }

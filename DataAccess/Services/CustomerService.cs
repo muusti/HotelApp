@@ -23,47 +23,44 @@ namespace DataAccess.Services
         public override IQueryable<Customer> Query()
         {
             return base.Query()
-                 .Include(c => c.CustomerDetails)
-                 .Include(c => c.CustomerHotels)
-                 .Include(c => c.CustomerRoom)
+                .Include(c => c.CustomerRoom)
                  .Select(c => new Customer()
                  {
+                     Id = c.Id,
                      NameDisplay = c.Name,
                      LastNameDisplay = c.LastName,
-                     CustomerRoom = c.CustomerRoom,
                      DateOfBirthDisplay = c.DateOfBirth.Value.ToString("MM/dd/yyyy"),
+                     City = c.City,
+                     Country = c.Country,
+                     CityId = c.CityId,
+                     CountryId = c.CountryId,
+                     AddressDisplay = c.Address,
+                     EmailDisplay = c.Email,
+                     IdentificationNoDisplay = c.IdentificationNo,
+                     PhoneNumberDisplay = c.PhoneNumber,
+                     GenderDisplay = c.Gender,
+                     CustomerRoomRoomNoDisplay = string.Join(" ", c.CustomerRoom.Select(cr => cr.Room.RoomNo)),
+                     CustomerRoomHotelNameDisplay = string.Join(" ", c.CustomerRoom.Select(cr => cr.Room.Hotel.Name)),
+                     RoomIds = c.CustomerRoom.Select(cr => cr.Room.Id).ToList(),
+                     HotelIds = c.CustomerRoom.Select(cr => cr.Room.Hotel.Id).ToList(),
+                     DateOfEntryDisplay = string.Join(" ", c.CustomerRoom.Select(cr=> cr.DateOfEntry.Value.ToString("MM/dd/yyyy"))),
+                     ReleaseDateDisplay = string.Join(" ", c.CustomerRoom.Select(cr => cr.ReleaseDate.Value.ToString("MM/dd/yyyy")))
                      
-                     CustomerDetails = new CustomerDetails()
-                     {
-                         AddressDisplay = c.CustomerDetails.Address,
-                         EmailDisplay = c.CustomerDetails.Email,
-                         IdentificationNoDisplay = c.CustomerDetails.IdentificationNo,
-                         PhoneNumberDisplay = c.CustomerDetails.PhoneNumber,
-                         Country = c.CustomerDetails.Country,
-                         City = c.CustomerDetails.City
-                     },
-                     GenderDisplay = c.Gender
                  });
         }
-
         public override Result Add(Customer entity, bool save = true)
         {
-            if (Query().Any(c => c.CustomerDetails.IdentificationNo == entity.CustomerDetails.IdentificationNo))
-                return new ErrorResult("Error");
+            entity.Name = entity.Name?.Trim();
+            entity.LastName = entity.LastName?.Trim();
+            entity.Address = entity.Address?.Trim();
 
-            entity.CustomerDetails = new CustomerDetails()
+            entity.CustomerRoom = entity.RoomIds?.Select(rId => new CustomerRoom()
             {
-                CustomerId = entity.Id,
-                IdentificationNo = entity.CustomerDetails.IdentificationNo,
-                Email = entity.CustomerDetails.Email,
-                PhoneNumber = entity.CustomerDetails.PhoneNumber,
-                CityId = entity.CustomerDetails.CityId,
-                CountryId = entity.CustomerDetails.CountryId,
-                Address = entity.CustomerDetails.Address,
-                Customer = entity.CustomerDetails.Customer,
-                City = entity.CustomerDetails.City,
-                Country = entity.CustomerDetails.Country
-            };
+                RoomId = rId,
+                DateOfEntry = entity.CustomerRoomDisplay.DateOfEntry,
+                ReleaseDate = entity.CustomerRoomDisplay.ReleaseDate
+            }).ToList();
+
 
             return base.Add(entity, save);
         }

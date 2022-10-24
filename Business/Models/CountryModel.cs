@@ -12,7 +12,6 @@ namespace Business.Models
         [StringLength(150)]
         public string? Name { get; set; }
         public List<CityModel>? Cities { get; set; }
-        public List<CustomerDetails>? CustomerDetails { get; set; }
         public List<HotelModel>? Hotels { get; set; }
     }
 }

@@ -71,32 +71,8 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime?>("DateOfBirth")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("DataAccess.Entities.CustomerDetails", b =>
-                {
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CityId")
@@ -107,12 +83,27 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("DateOfBirth")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
                     b.Property<string>("IdentificationNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -120,36 +111,13 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CustomerId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CityId");
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("CustomerDetails");
-                });
-
-            modelBuilder.Entity("DataAccess.Entities.CustomerHotel", b =>
-                {
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(0);
-
-                    b.Property<int?>("HotelId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
-
-                    b.Property<DateTime?>("DateOfEntry")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ReleaseDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("CustomerId", "HotelId");
-
-                    b.HasIndex("HotelId");
-
-                    b.ToTable("CustomerHotel");
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.CustomerRoom", b =>
@@ -161,6 +129,12 @@ namespace DataAccess.Migrations
                     b.Property<int?>("RoomId")
                         .HasColumnType("int")
                         .HasColumnOrder(1);
+
+                    b.Property<DateTime?>("DateOfEntry")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ReleaseDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("CustomerId", "RoomId");
 
@@ -260,50 +234,23 @@ namespace DataAccess.Migrations
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.CustomerDetails", b =>
+            modelBuilder.Entity("DataAccess.Entities.Customer", b =>
                 {
                     b.HasOne("DataAccess.Entities.City", "City")
-                        .WithMany("CustomerDetails")
+                        .WithMany("Customer")
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DataAccess.Entities.Country", "Country")
-                        .WithMany("CustomerDetails")
+                        .WithMany("Customer")
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("DataAccess.Entities.Customer", "Customer")
-                        .WithOne("CustomerDetails")
-                        .HasForeignKey("DataAccess.Entities.CustomerDetails", "CustomerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("City");
 
                     b.Navigation("Country");
-
-                    b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("DataAccess.Entities.CustomerHotel", b =>
-                {
-                    b.HasOne("DataAccess.Entities.Customer", "Customer")
-                        .WithMany("CustomerHotels")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataAccess.Entities.Hotel", "Hotel")
-                        .WithMany("CustomerHotel")
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Hotel");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.CustomerRoom", b =>
@@ -368,7 +315,7 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Entities.City", b =>
                 {
-                    b.Navigation("CustomerDetails");
+                    b.Navigation("Customer");
 
                     b.Navigation("Hotels");
                 });
@@ -377,24 +324,18 @@ namespace DataAccess.Migrations
                 {
                     b.Navigation("Cities");
 
-                    b.Navigation("CustomerDetails");
+                    b.Navigation("Customer");
 
                     b.Navigation("Hotels");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Customer", b =>
                 {
-                    b.Navigation("CustomerDetails");
-
-                    b.Navigation("CustomerHotels");
-
                     b.Navigation("CustomerRoom");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Hotel", b =>
                 {
-                    b.Navigation("CustomerHotel");
-
                     b.Navigation("Rooms");
                 });
 

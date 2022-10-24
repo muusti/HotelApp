@@ -16,7 +16,7 @@ namespace DataAccess.Entities
 
         public Country? Country { get; set; }
 
-        public List<CustomerDetails>? CustomerDetails { get; set; }
+        public List<Customer>? Customer { get; set; }
         public List<Hotel>? Hotels { get; set; }
     }
 }

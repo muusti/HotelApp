@@ -17,6 +17,7 @@ namespace DataAccess.Services
         {
             return base.Query()
                 .Include(r => r.Hotel)
+                .Include(r => r.CustomerRoom)
                 .Include(r => r.RoomFeatures)
                 .OrderBy(r => r.Hotel.Name)
                 .ThenBy(r => r.RoomNo)
@@ -30,7 +31,10 @@ namespace DataAccess.Services
                     IsEmptyDisplay = r.IsEmpty ? "Empty" : "Not Empty",
                     Hotel = r.Hotel,
                     WeeklyPriceDisplay = r.DailyPrice != null ? (r.DailyPrice * 6).Value.ToString("C2") : "",
-                });
+                    CustomerRoom = r.CustomerRoom,
+                    DailyPrice = r.DailyPrice,
+                    IsEmpty = r.IsEmpty
+                }) ;
         }
 
         public override Result Add(Room entity, bool save = true)
