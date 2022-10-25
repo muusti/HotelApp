@@ -24,12 +24,14 @@ namespace HotelApp.Controllers
             _countryService = countryService;
             _cityService = cityService;
         }
+      
 
         public IActionResult Index()
         {
             List<Hotel> hotelList = _hotelService.GetList();
             return View(hotelList);
         }
+
 
         public IActionResult Details(int id)
         {

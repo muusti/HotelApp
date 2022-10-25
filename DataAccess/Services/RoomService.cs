@@ -28,13 +28,13 @@ namespace DataAccess.Services
                     DailyPriceDisplay = r.DailyPrice != null ? r.DailyPrice.Value.ToString("C2") : "",
                     RoomFeatures = r.RoomFeatures,
                     HotelId = r.HotelId,
+                    IsEmpty = r.CustomerRoom.Any(cr => cr.ReleaseDate < DateTime.Now) ? true : false,
                     IsEmptyDisplay = r.IsEmpty ? "Empty" : "Not Empty",
                     Hotel = r.Hotel,
                     WeeklyPriceDisplay = r.DailyPrice != null ? (r.DailyPrice * 6).Value.ToString("C2") : "",
                     CustomerRoom = r.CustomerRoom,
                     DailyPrice = r.DailyPrice,
-                    IsEmpty = r.IsEmpty
-                }) ;
+                });
         }
 
         public override Result Add(Room entity, bool save = true)

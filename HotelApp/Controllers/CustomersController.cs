@@ -48,11 +48,11 @@ namespace HotelApp.Controllers
 
         public IActionResult Create()
         {
-            
-            ViewBag.HotelIds = new SelectList(_hotelService.GetList(), "Id", "Name");
-            ViewBag.RoomIds = new SelectList(_roomService.GetList().Where(r => r.CustomerRoom.Any(cr => cr.ReleaseDate == null || cr.ReleaseDate <= DateTime.Now)), "Id", "RoomNo");
-            ViewBag.CountryId = new SelectList(_countryService.GetList(), "Id", "Name");
-            ViewBag.CityId = new SelectList(_cityService.GetList(), "Id", "Name");
+
+            ViewBag.Hotels = new SelectList(_hotelService.GetList(), "Id", "Name");
+            ViewBag.Rooms = new SelectList(_roomService.GetList(r=>r.IsEmptyDisplay == "Empty"), "Id", "RoomNo");
+            ViewBag.Countries = new SelectList(_countryService.GetList(), "Id", "Name");
+            ViewBag.Cities = new SelectList(_cityService.GetList(), "Id", "Name");
             return View();
         }
 
@@ -72,10 +72,10 @@ namespace HotelApp.Controllers
                 }
                 ModelState.AddModelError("", result.Message);
             }
-            ViewBag.CountryId = new SelectList(_countryService.GetList(), "Id", "Name", customer.CountryId);
-            ViewBag.CityId = new SelectList(_cityService.GetList(), "Id", "Name", customer.CityId);
-            ViewBag.RoomIds = new SelectList(_roomService.GetList().Where(r => r.CustomerRoom.Any(cr => cr.DateOfEntry == null || cr.ReleaseDate <= DateTime.Now)), "Id", "RoomNo");
-            ViewBag.HotelIds = new SelectList(_hotelService.GetList(), "Id", "Name");
+            ViewBag.Countries = new SelectList(_countryService.GetList(), "Id", "Name", customer.CountryId);
+            ViewBag.Cities = new SelectList(_cityService.GetList(c=> c.CountryId == customer.CountryId), "Id", "Name", customer.CityId);
+            ViewBag.Rooms = new SelectList(_roomService.GetList()/*Query().Where(r => r.IsEmptyDisplay == "Empty").ToList()*/, "Id", "RoomNo", customer.RoomIds);
+            ViewBag.Hotels = new SelectList(_hotelService.GetList(), "Id", "Name");
             return View(customer);
         }
 

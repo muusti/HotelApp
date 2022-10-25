@@ -76,7 +76,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="CountryId" class="control-label"></label>
-                <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryId">
+                <select asp-for="CountryId" class="form-control" asp-items="ViewBag.Countries" id="countryselect">
                     <option value="">-- Select --</option>
                 </select>
                 <span asp-validation-for="CountryId" class="text-danger"></span>
@@ -84,7 +84,7 @@
 
             <div class="form-group">
                 <label asp-for="CityId" class="control-label"></label>
-                <select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId">
+                <select asp-for="CityId" class="form-control cityselect" asp-items="ViewBag.Cities">
                     <option value="">-- Select --</option>
                 </select>
                 <span asp-validation-for="CityId" class="text-danger"></span>
@@ -92,7 +92,7 @@
 
             <div class="form-group">
                 <label asp-for="HotelIds" class="control-label"></label>
-                <select asp-for="HotelIds" class="form-control" asp-items="ViewBag.HotelIds">
+                <select asp-for="HotelIds" class="form-control" asp-items="ViewBag.Hotels" id="hotelselect">
                     <option value="">-- Select --</option>
                 </select>
                 <span asp-validation-for="HotelIds" class="text-danger"></span>
@@ -100,7 +100,7 @@
 
             <div class="row mb-3">
                 <label asp-for="RoomIds" class="control-label"></label>
-                <select asp-for="RoomIds" class="form-control" asp-items="ViewBag.RoomIds">
+                <select asp-for="RoomIds" class="form-control roomselect" asp-items="ViewBag.Rooms">
                     <option value="">-- Select --</option>
                 </select>
                 <span asp-validation-for="RoomIds" class="text-danger"></span>
@@ -122,42 +122,6 @@
                 </div>
             </div>
 
-            @*<div class="row mb-3">
-            <label asp-for="DateOfEntry" class="col-2 col-form-label"></label>
-            <div class="col-5">
-            <input asp-for="DateOfBirth" class="form-control" />
-            <span asp-validation-for="DateOfEntry" class="text-danger"></span>
-            </div>
-            </div>*@
-
-
-            @* <div class="row mb-3">
-            <label asp-for="RoomIds" class="col-2 col-form-label"></label>
-            <div class="col-5">
-            <select asp-for="RoomIds" class="form-control" asp-items="ViewBag.RoomIds">
-            <option value="">-- Select --</option>
-            </select>
-            </div>
-            </div>*@
-
-
-            @*
-            <div class="row mb-3">
-            <label asp-for="CustomerHotels.Select(c=>c.DateOfEntry)" class="col-2 col-form-label"></label>
-            <div class="col-5">
-            <input asp-for="CustomerHotels.Select(c=>c.DateOfEntry)" class="form-control" />
-            <span asp-validation-for="CustomerHotels.Select(c=>c.DateOfEntry)" class="text-danger"></span>
-            </div>
-            </div>*@
-            @* <div class="form-group">
-            <label asp-for="CustomerRoom" class="control-label"></label>
-            <select asp-for="CustomerRoom" class="form-control" asp-items="ViewBag.RoomId">
-            <option value="">-- Select --</option>
-            </select>
-            <span asp-validation-for="CustomerRoom" class="text-danger"></span>
-
-            </div>*@
-
 
             <div class="row mb-3">
                 <div class="offset-2 col-5">
@@ -172,6 +136,74 @@
     </div>
 </div>
 
+@section Scripts{
+
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"> </script>
+
+    <script>
+        $(function() {
+            $("#countryselect").change(function() {
+                $(".cityselect").empty();
+                var selectedCountryId = $("#countryselect").val();
+                if (selectedCountryId != "") {
+                    $.ajax({
+                        cache: false,
+                        dataType: "json",
+                        url: "/Cities/GetJson", 
+                        data: { countryId: selectedCountryId },
+                        type: "get",
+                        success: function(cities) {
+                            $(".cityselect").append('<option value="">-- Select City --</option>');
+
+                            for (var i = 0; i < cities.length; i++) {
+                                $(".cityselect").append('<option value="' + cities[i].id + '">' + cities[i].name + '</option>');
+                            }
+                        },
+                        error: function() {
+                            alert("An error occured during AJAX request");
+                        }
+
+                    });
+                } else {
+                    $(".cityselect").append('<option value="">-- Select Country --</option>');
+                }
+            });
+        });
+    </script>
+
+        <script>
+        $(function() {
+            $("#hotelselect").change(function() {
+                $(".roomselect").empty();
+                var selectedHotelId = $("#hotelselect").val();
+                if (selectedHotelId != "") {
+                    $.ajax({
+                        cache: false,
+                        dataType: "json",
+                        url: "/Rooms/GetJson",
+                        data: { hotelId: selectedHotelId },
+                        type: "get",
+                        success: function(rooms) {
+                            console.log(rooms)
+                            $(".roomselect").append('<option value="">-- Select Room --</option>');
+
+                            for (var i = 0; i < rooms.length; i++) {
+                                $(".roomselect").append('<option value="' + rooms[i].id + '">' + rooms[i].roomno + '</option>');
+                            }
+                        },
+                        error: function() {
+                            alert("An error occured during AJAX request");
+                        }
+
+                    });
+                } else {
+                    $(".roomselect").append('<option value="">-- Select Hotel --</option>');
+                }
+            });
+        });
+    </script>
+
+}
 
 
 

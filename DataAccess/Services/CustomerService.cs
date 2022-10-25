@@ -45,8 +45,8 @@ namespace DataAccess.Services
                      HotelIds = c.CustomerRoom.Select(cr => cr.Room.Hotel.Id).ToList(),
                      DateOfEntryDisplay = string.Join(" ", c.CustomerRoom.Select(cr=> cr.DateOfEntry.Value.ToString("MM/dd/yyyy"))),
                      ReleaseDateDisplay = string.Join(" ", c.CustomerRoom.Select(cr => cr.ReleaseDate.Value.ToString("MM/dd/yyyy")))
-                     
                  });
+
         }
         public override Result Add(Customer entity, bool save = true)
         {
@@ -58,10 +58,9 @@ namespace DataAccess.Services
             {
                 RoomId = rId,
                 DateOfEntry = entity.CustomerRoomDisplay.DateOfEntry,
-                ReleaseDate = entity.CustomerRoomDisplay.ReleaseDate
+                ReleaseDate = entity.CustomerRoomDisplay.ReleaseDate,
+               
             }).ToList();
-
-
             return base.Add(entity, save);
         }
     }

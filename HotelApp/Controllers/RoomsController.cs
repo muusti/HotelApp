@@ -25,6 +25,12 @@ namespace HotelApp.Controllers
             _hotelService = hotelService;
         }
 
+        public IActionResult GetJson(int hotelId)
+        {
+            var rooms = _roomService.GetList(c => c.HotelId == hotelId);
+            return Json(rooms);
+        }
+
         public IActionResult Index()
         {
             List<Room> roomList = _roomService.GetList();

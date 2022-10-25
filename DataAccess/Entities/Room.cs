@@ -43,5 +43,8 @@ namespace DataAccess.Entities
         [DisplayName("Weekly Price ")]
         public string? WeeklyPriceDisplay { get; set; }
 
+        [NotMapped]
+        public List<CustomerRoom>? CustomerRoomDisplay { get; set; }
+
     }
 }
