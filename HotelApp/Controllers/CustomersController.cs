@@ -50,7 +50,7 @@ namespace HotelApp.Controllers
         {
 
             ViewBag.Hotels = new SelectList(_hotelService.GetList(), "Id", "Name");
-            ViewBag.Rooms = new SelectList(_roomService.GetList(r=>r.IsEmptyDisplay == "Empty"), "Id", "RoomNo");
+            ViewBag.Rooms = new SelectList(_roomService.GetList(r=>r.IsEmpty == true), "Id", "RoomNo");
             ViewBag.Countries = new SelectList(_countryService.GetList(), "Id", "Name");
             ViewBag.Cities = new SelectList(_cityService.GetList(), "Id", "Name");
             return View();
