@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using DataAccess.Contexts;
 using DataAccess.Entities;
 using DataAccess.Services.Bases;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HotelApp.Controllers
 {
+    [Authorize(Roles ="admin")]
     public class CustomersController : Controller
     {
         private readonly CustomerServiceBase _customerService;
@@ -30,6 +32,7 @@ namespace HotelApp.Controllers
             _cityService = cityService;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             List<Customer> customerList = _customerService.GetList();
@@ -46,17 +49,19 @@ namespace HotelApp.Controllers
             return View(customer);
         }
 
+        [AllowAnonymous]
         public IActionResult Create()
         {
 
             ViewBag.Hotels = new SelectList(_hotelService.GetList(), "Id", "Name");
-            ViewBag.Rooms = new SelectList(_roomService.GetList(r=>r.IsEmpty == true), "Id", "RoomNo");
+            ViewBag.Rooms = new SelectList(_roomService.GetList(r => r.IsEmpty == true), "Id", "RoomNo");
             ViewBag.Countries = new SelectList(_countryService.GetList(), "Id", "Name");
             ViewBag.Cities = new SelectList(_cityService.GetList(), "Id", "Name");
             return View();
         }
 
 
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Customer customer)
@@ -73,8 +78,8 @@ namespace HotelApp.Controllers
                 ModelState.AddModelError("", result.Message);
             }
             ViewBag.Countries = new SelectList(_countryService.GetList(), "Id", "Name", customer.CountryId);
-            ViewBag.Cities = new SelectList(_cityService.GetList(c=> c.CountryId == customer.CountryId), "Id", "Name", customer.CityId);
-            ViewBag.Rooms = new SelectList(_roomService.GetList()/*Query().Where(r => r.IsEmptyDisplay == "Empty").ToList()*/, "Id", "RoomNo", customer.RoomIds);
+            ViewBag.Cities = new SelectList(_cityService.GetList(c => c.CountryId == customer.CountryId), "Id", "Name", customer.CityId);
+            ViewBag.Rooms = new SelectList(_roomService.GetList(r => r.IsEmpty == true), "Id", "RoomNo", customer.RoomIds);
             ViewBag.Hotels = new SelectList(_hotelService.GetList(), "Id", "Name");
             return View(customer);
         }
@@ -97,8 +102,11 @@ namespace HotelApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                // TODO: Add update service logic here
-                return RedirectToAction(nameof(Index));
+                var result = _customerService.Update(customer);
+                if (result.IsSuccessful)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
             return View(customer);

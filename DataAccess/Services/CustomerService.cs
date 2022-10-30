@@ -29,6 +29,7 @@ namespace DataAccess.Services
                      Id = c.Id,
                      NameDisplay = c.Name,
                      LastNameDisplay = c.LastName,
+                     NameAndSurName = c.Name + " " + c.LastName.ToUpper(),
                      DateOfBirthDisplay = c.DateOfBirth.Value.ToString("MM/dd/yyyy"),
                      City = c.City,
                      Country = c.Country,
@@ -38,12 +39,12 @@ namespace DataAccess.Services
                      EmailDisplay = c.Email,
                      IdentificationNoDisplay = c.IdentificationNo,
                      PhoneNumberDisplay = c.PhoneNumber,
-                     GenderDisplay = c.Gender,
+                     GenderDisplay = c.Gender.ToString(),
                      CustomerRoomRoomNoDisplay = string.Join(" ", c.CustomerRoom.Select(cr => cr.Room.RoomNo)),
                      CustomerRoomHotelNameDisplay = string.Join(" ", c.CustomerRoom.Select(cr => cr.Room.Hotel.Name)),
                      RoomIds = c.CustomerRoom.Select(cr => cr.Room.Id).ToList(),
                      HotelIds = c.CustomerRoom.Select(cr => cr.Room.Hotel.Id).ToList(),
-                     DateOfEntryDisplay = string.Join(" ", c.CustomerRoom.Select(cr=> cr.DateOfEntry.Value.ToString("MM/dd/yyyy"))),
+                     DateOfEntryDisplay = string.Join(" ", c.CustomerRoom.Select(cr => cr.DateOfEntry.Value.ToString("MM/dd/yyyy"))),
                      ReleaseDateDisplay = string.Join(" ", c.CustomerRoom.Select(cr => cr.ReleaseDate.Value.ToString("MM/dd/yyyy")))
                  });
 
@@ -59,7 +60,7 @@ namespace DataAccess.Services
                 RoomId = rId,
                 DateOfEntry = entity.CustomerRoomDisplay.DateOfEntry,
                 ReleaseDate = entity.CustomerRoomDisplay.ReleaseDate,
-               
+
             }).ToList();
             return base.Add(entity, save);
         }

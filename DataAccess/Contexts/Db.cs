@@ -19,10 +19,9 @@ namespace DataAccess.Contexts
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
-
-
-
-
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserDetails> UserDetails { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -30,8 +29,6 @@ namespace DataAccess.Contexts
 
             modelBuilder.Entity<CustomerRoom>()
             .HasKey(cr => new { cr.CustomerId, cr.RoomId });
-
-        
 
             modelBuilder.Entity<Room>()
                 .HasOne(r => r.Hotel)
@@ -75,6 +72,17 @@ namespace DataAccess.Contexts
                 .HasForeignKey(h => h.CityId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<UserDetails>()
+                .HasOne(ud => ud.User)
+                .WithOne(u => u.UserDetails)
+                .HasForeignKey<UserDetails>(ud => ud.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Role)
+                .WithMany(r => r.Users)
+                .HasForeignKey(u => u.RoleId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

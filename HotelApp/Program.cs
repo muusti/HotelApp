@@ -3,12 +3,21 @@ using Business.ServicesDemo.Bases;
 using DataAccess.Contexts;
 using DataAccess.Services;
 using DataAccess.Services.Bases;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(c =>
+{
+    c.LoginPath = "/Accounts/Home/Login";
+    c.AccessDeniedPath = "/Accounts/Home/AccessDenied";
+    c.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    c.SlidingExpiration = true;
+});
 
 #region IoC Container (Inversion of Control Container)
 var connectionString = builder.Configuration.GetConnectionString("HotelAppDb");
@@ -19,9 +28,8 @@ builder.Services.AddScoped<CityServiceBase, CityService>();
 builder.Services.AddScoped<CountryServiceBase, CountryService>();
 builder.Services.AddScoped<RoomServiceBase, RoomService>();
 builder.Services.AddScoped<CustomerServiceBase, CustomerService>();
-
-
-
+builder.Services.AddScoped<UserServiceBase, UserService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 #endregion
 
@@ -40,7 +48,18 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+});
+
 
 app.MapControllerRoute(
     name: "default",

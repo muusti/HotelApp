@@ -2,6 +2,7 @@
 using DataAccess.Entities;
 using DataAccess.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelApp.Controllers
 {
@@ -34,11 +35,18 @@ namespace HotelApp.Controllers
             var customer = _db.Customers.ToList();
             _db.Customers.RemoveRange(customer);
 
+            _db.UserDetails.RemoveRange(_db.UserDetails.ToList());
+
+            _db.Users.RemoveRange(_db.Users.ToList());
+
+            _db.Roles.RemoveRange(_db.Roles.ToList());
+            _db.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Roles', RESEED, 0)");
+
 
             _db.Countries.Add(new Country()
             {
 
-                Name = "Turkiye",
+                Name = "Türkiye",
                 Cities = new List<City>()
                {
                    new City()
@@ -88,7 +96,7 @@ namespace HotelApp.Controllers
             {
                 Name = "HotelA",
                 Star = 5,
-                CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Turkiye").Id,
+                CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Türkiye").Id,
                 CityId = _db.Cities.SingleOrDefault(c => c.Name == "Antalya").Id,
                 Rooms = new List<Room>(){
                     new Room()
@@ -135,7 +143,7 @@ namespace HotelApp.Controllers
             {
                 Name = "HotelC",
                 Star = 7,
-                CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Turkiye").Id,
+                CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Türkiye").Id,
                 CityId = _db.Cities.SingleOrDefault(c => c.Name == "Antalya").Id,
                 Rooms = new List<Room>(){
                     new Room()
@@ -182,7 +190,7 @@ namespace HotelApp.Controllers
             {
                 Name = "HotelB",
                 Star = 5,
-                CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Turkiye").Id,
+                CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Türkiye").Id,
                 CityId = _db.Cities.SingleOrDefault(c => c.Name == "İstanbul").Id,
                 Rooms = new List<Room>(){
                     new Room()
@@ -237,7 +245,7 @@ namespace HotelApp.Controllers
                 Email = "aa@",
                 PhoneNumber = "000",
                 IdentificationNo = "000",
-                CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Turkiye").Id,
+                CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Türkiye").Id,
                 CityId = _db.Cities.SingleOrDefault(c => c.Name == "Antalya").Id,
 
                 CustomerRoom = new List<CustomerRoom>()
@@ -264,7 +272,7 @@ namespace HotelApp.Controllers
                 Email = "aa@",
                 PhoneNumber = "000",
                 IdentificationNo = "000",
-                CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Turkiye").Id,
+                CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Türkiye").Id,
                 CityId = _db.Cities.SingleOrDefault(c => c.Name == "İstanbul").Id,
 
                 CustomerRoom = new List<CustomerRoom>()
@@ -290,7 +298,7 @@ namespace HotelApp.Controllers
                 Email = "aa@",
                 PhoneNumber = "000",
                 IdentificationNo = "000",
-                CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Turkiye").Id,
+                CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Türkiye").Id,
                 CityId = _db.Cities.SingleOrDefault(c => c.Name == "İstanbul").Id,
 
                 CustomerRoom = new List<CustomerRoom>()
@@ -317,7 +325,7 @@ namespace HotelApp.Controllers
                 Email = "FFF@",
                 PhoneNumber = "00000",
                 IdentificationNo = "00000",
-                CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Turkiye").Id,
+                CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Türkiye").Id,
                 CityId = _db.Cities.SingleOrDefault(c => c.Name == "İstanbul").Id,
 
                 CustomerRoom = new List<CustomerRoom>()
@@ -329,6 +337,54 @@ namespace HotelApp.Controllers
                          ReleaseDate = DateTime.Parse("01/01/2019")
                     }
                 }
+
+            });
+
+            _db.Roles.Add(new Role()
+            {
+                Name = "admin",
+            });
+            _db.SaveChanges();
+
+            _db.Roles.Add(new Role()
+            {
+                Name = "user",
+                Users = new List<User>()
+                {
+                   new User()
+                   {
+                       UserName = "musti2",
+                       Password = "musti2",
+                       IsActive = true,
+                       UserDetails = new UserDetails()
+                       {
+                           Email = "mm@m",
+                           Gender = Gender.Male,
+                           CountryId = _db.Countries.SingleOrDefault(c=>c.Name == "Türkiye").Id,
+                           CityId = _db.Cities.SingleOrDefault(c=> c.Name == "Ankara").Id,
+                           Address = "aaaaa"
+                       }
+
+                   }
+                }
+            });
+
+
+
+            _db.Users.Add(new User()
+            {
+                UserName = "musti",
+                Password = "musti",
+                UserDetails = new UserDetails()
+                {
+                    Email = "m@m",
+                    CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Türkiye").Id,
+                    CityId = _db.Cities.SingleOrDefault(c => c.Name == "Ankara").Id,
+                    Address = "aaaaaaaaa",
+                    Gender = Gender.Male
+                },
+                IsActive = true,
+                RoleId = _db.Roles.SingleOrDefault(r => r.Name == "admin").Id
 
             });
 

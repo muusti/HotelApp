@@ -25,4 +25,9 @@
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Accounts\Data\" />
+    <Folder Include="Areas\Accounts\Models\" />
+  </ItemGroup>
+
 </Project>

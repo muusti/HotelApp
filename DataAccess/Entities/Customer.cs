@@ -71,7 +71,7 @@ namespace DataAccess.Entities
 
         [NotMapped]
         [DisplayName("Gender")]
-        public Gender? GenderDisplay { get; set; }
+        public string? GenderDisplay { get; set; }
 
         [StringLength(250)]
         [EmailAddress]
@@ -119,6 +119,10 @@ namespace DataAccess.Entities
         [NotMapped]
         [DisplayName("Hotel Check-Out Date")]
         public string? ReleaseDateDisplay { get; set; }
+
+        [DisplayName("Name And Surname")]
+        [NotMapped]
+        public string? NameAndSurName { get; set; }
 
         [NotMapped]
         [Required]

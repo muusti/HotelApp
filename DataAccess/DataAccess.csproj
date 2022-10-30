@@ -17,8 +17,4 @@
     <ProjectReference Include="..\AppCore\AppCore\AppCore.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
 </Project>
