@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HotelApp.Controllers
 {
-    [Authorize(Roles ="admin")]
+    [Authorize(Roles = "admin")]
     public class CustomersController : Controller
     {
         private readonly CustomerServiceBase _customerService;
@@ -92,7 +92,14 @@ namespace HotelApp.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Hotels = new SelectList(_hotelService.GetList(), "Id", "Name");
+            ViewBag.Rooms = new SelectList(_roomService.GetList(r => r.IsEmpty == true), "Id", "RoomNo");
+            ViewBag.Countries = new SelectList(_countryService.GetList(), "Id", "Name");
+            ViewBag.Cities = new SelectList(_cityService.GetList(), "Id", "Name");
+         
             return View(customer);
+
         }
 
 
@@ -108,19 +115,20 @@ namespace HotelApp.Controllers
                     return RedirectToAction(nameof(Index));
                 }
             }
-            // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
+
+            ViewBag.Hotels = new SelectList(_hotelService.GetList(), "Id", "Name");
+            ViewBag.Rooms = new SelectList(_roomService.GetList(r => r.IsEmpty == true), "Id", "RoomNo");
+            ViewBag.Countries = new SelectList(_countryService.GetList(), "Id", "Name");
+            ViewBag.Cities = new SelectList(_cityService.GetList(), "Id", "Name");
+
             return View(customer);
         }
 
-        // GET: Customers/Delete/5
         public IActionResult Delete(int id)
         {
-            Customer customer = null; // TODO: Add get item service logic here
-            if (customer == null)
-            {
-                return NotFound();
-            }
-            return View(customer);
+            var result = _customerService.Delete(c => c.Id == id);
+            TempData["Message"] = result.Message;
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: Customers/Delete

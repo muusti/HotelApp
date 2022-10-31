@@ -5,17 +5,20 @@ using DataAccess.Services;
 using DataAccess.Services.Bases;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(x =>
+x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(c =>
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+.AddCookie(c =>
 {
     c.LoginPath = "/Accounts/Home/Login";
     c.AccessDeniedPath = "/Accounts/Home/AccessDenied";
-    c.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    c.ExpireTimeSpan = TimeSpan.FromMinutes(10);
     c.SlidingExpiration = true;
 });
 
@@ -30,6 +33,7 @@ builder.Services.AddScoped<RoomServiceBase, RoomService>();
 builder.Services.AddScoped<CustomerServiceBase, CustomerService>();
 builder.Services.AddScoped<UserServiceBase, UserService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<RoleServiceBase, RoleService>();
 
 #endregion
 
@@ -60,6 +64,13 @@ app.UseEndpoints(endpoints =>
     );
 });
 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+      name: "welcome",
+      pattern: "Home/Index"
+    );
+});
 
 app.MapControllerRoute(
     name: "default",

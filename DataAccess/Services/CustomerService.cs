@@ -58,8 +58,8 @@ namespace DataAccess.Services
             entity.CustomerRoom = entity.RoomIds?.Select(rId => new CustomerRoom()
             {
                 RoomId = rId,
-                DateOfEntry = entity.CustomerRoomDisplay.DateOfEntry,
-                ReleaseDate = entity.CustomerRoomDisplay.ReleaseDate,
+                DateOfEntry = entity.DateOfEntryDisplay2,
+                ReleaseDate = entity.ReleaseDateDisplay2
 
             }).ToList();
             return base.Add(entity, save);

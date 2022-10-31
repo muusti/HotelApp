@@ -1,14 +1,14 @@
 ﻿using AppCore.DataAccsess.Services;
 using DataAccess.Contexts;
 using DataAccess.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Services.Bases
 {
-    public abstract class RoomServiceBase : ServiceBase<Room>
+    public abstract class RoleServiceBase : ServiceBase<Role>
     {
-        public RoomServiceBase(Db db) : base(db)
+        public RoleServiceBase(Db db) : base(db)
         {
+
         }
     }
 }

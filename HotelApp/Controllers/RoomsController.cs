@@ -25,17 +25,14 @@ namespace HotelApp.Controllers
             _hotelService = hotelService;
         }
 
-        public IActionResult GetJson(int hotelId)
-        {
-            var rooms = _roomService.GetList(c => c.HotelId == hotelId);
-            return Json(rooms);
-        }
+      
 
         public IActionResult Index()
         {
             List<Room> roomList = _roomService.GetList();
             return View(roomList);
         }
+      
 
         public IActionResult Details(int id)
         {
@@ -66,6 +63,12 @@ namespace HotelApp.Controllers
             }
             ViewData["HotelId"] = new SelectList(_hotelService.GetList(), "Id", "Name", room.HotelId);
             return View(room);
+        }
+
+        public IActionResult GetJson(int hotelId)
+        {
+            var rooms = _roomService.GetList(c => c.HotelId == hotelId);
+            return Json(rooms);
         }
 
         public IActionResult Edit(int id)

@@ -124,8 +124,16 @@ namespace DataAccess.Entities
         [NotMapped]
         public string? NameAndSurName { get; set; }
 
+
         [NotMapped]
         [Required]
-        public CustomerRoom? CustomerRoomDisplay { get; set; }
+        [DisplayName("Hotel Check-In Date")]
+        public DateTime? DateOfEntryDisplay2 { get; set; }
+
+        [NotMapped]
+        [Required]
+        [DisplayName("Hotel Check-Out Date")]
+        public DateTime? ReleaseDateDisplay2 { get; set; }
+
     }
 }

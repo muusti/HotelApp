@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Services.Bases
 {
-    public class UserServiceBase : ServiceBase<User>
+    public abstract class UserServiceBase : ServiceBase<User>
     {
         public UserServiceBase(Db db) : base(db)
         {

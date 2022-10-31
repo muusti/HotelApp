@@ -36,7 +36,7 @@ namespace DataAccess.Services
                     Address = model.Address
                 },
                 IsActive = true,
-                RoleId = _userService.Query().SingleOrDefault(u => u.Role.Name == "user").Id
+                RoleId = 2
             };
 
             return _userService.Add(user);
