@@ -8,11 +8,13 @@ namespace DataAccess.Services
     public class AccountService : IAccountService
     {
         private readonly UserServiceBase _userService;
+        private readonly RoleServiceBase _roleService;
 
 
-        public AccountService(UserServiceBase userService)
+        public AccountService(UserServiceBase userService, RoleServiceBase roleService)
         {
             _userService = userService;
+            _roleService = roleService;
         }
 
         public User Login(AccountLoginModel model)
@@ -36,7 +38,7 @@ namespace DataAccess.Services
                     Address = model.Address
                 },
                 IsActive = true,
-                RoleId = 2
+                RoleId = _roleService.Query().SingleOrDefault(r=> r.Name == "user").Id
             };
 
             return _userService.Add(user);

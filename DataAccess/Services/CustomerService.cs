@@ -24,21 +24,25 @@ namespace DataAccess.Services
         {
             return base.Query()
                 .Include(c => c.CustomerRoom)
+                .OrderBy(c=> c.Name)
                  .Select(c => new Customer()
                  {
                      Id = c.Id,
-                     NameDisplay = c.Name,
-                     LastNameDisplay = c.LastName,
+                     Name = c.Name,
+                     LastName = c.LastName,
+                     DateOfBirth = c.DateOfBirth,
                      NameAndSurName = c.Name + " " + c.LastName.ToUpper(),
                      DateOfBirthDisplay = c.DateOfBirth.Value.ToString("MM/dd/yyyy"),
                      City = c.City,
                      Country = c.Country,
                      CityId = c.CityId,
                      CountryId = c.CountryId,
-                     AddressDisplay = c.Address,
-                     EmailDisplay = c.Email,
-                     IdentificationNoDisplay = c.IdentificationNo,
-                     PhoneNumberDisplay = c.PhoneNumber,
+                     Address = c.Address,
+                     Email = c.Email,
+                     IdentificationNo = c.IdentificationNo,
+                     PhoneNumber = c.PhoneNumber,
+                     Gender = c.Gender,
+                     CustomerRoom = c.CustomerRoom,
                      GenderDisplay = c.Gender.ToString(),
                      CustomerRoomRoomNoDisplay = string.Join(" ", c.CustomerRoom.Select(cr => cr.Room.RoomNo)),
                      CustomerRoomHotelNameDisplay = string.Join(" ", c.CustomerRoom.Select(cr => cr.Room.Hotel.Name)),
@@ -51,6 +55,9 @@ namespace DataAccess.Services
         }
         public override Result Add(Customer entity, bool save = true)
         {
+            if (Query().Any(c => c.IdentificationNo == entity.IdentificationNo.Trim() && c.Id != entity.Id))
+                return new ErrorResult("The Identification No you entered exists");
+
             entity.Name = entity.Name?.Trim();
             entity.LastName = entity.LastName?.Trim();
             entity.Address = entity.Address?.Trim();
@@ -63,6 +70,24 @@ namespace DataAccess.Services
 
             }).ToList();
             return base.Add(entity, save);
+        }
+
+        public override Result Update(Customer entity, bool save = true)
+        {
+            if (Query().Any(c => c.IdentificationNo == entity.IdentificationNo.Trim() && c.Id != entity.Id))
+                return new ErrorResult("The Identification No you entered exists");
+
+            var customer = Query().SingleOrDefault(c => c.Id == entity.Id);
+            _dbContext.Set<CustomerRoom>().RemoveRange(customer.CustomerRoom);
+
+            entity.CustomerRoom = entity.RoomIds?.Select(rId => new CustomerRoom()
+            {
+                RoomId = rId,
+                DateOfEntry = entity.DateOfEntryDisplay2,
+                ReleaseDate = entity.ReleaseDateDisplay2
+            }).ToList();
+
+            return base.Update(entity, save);
         }
     }
 }

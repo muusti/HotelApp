@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using DataAccess.Contexts;
 using DataAccess.Entities;
 using DataAccess.Services.Bases;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HotelApp.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class UsersController : Controller
     {
         private readonly UserServiceBase _userService;

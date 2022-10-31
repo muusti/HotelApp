@@ -94,10 +94,10 @@ namespace HotelApp.Controllers
             }
 
             ViewBag.Hotels = new SelectList(_hotelService.GetList(), "Id", "Name");
-            ViewBag.Rooms = new SelectList(_roomService.GetList(r => r.IsEmpty == true), "Id", "RoomNo");
+            ViewBag.Rooms = new SelectList(_roomService.GetList(), "Id", "RoomNo");
             ViewBag.Countries = new SelectList(_countryService.GetList(), "Id", "Name");
             ViewBag.Cities = new SelectList(_cityService.GetList(), "Id", "Name");
-         
+
             return View(customer);
 
         }
@@ -111,13 +111,12 @@ namespace HotelApp.Controllers
             {
                 var result = _customerService.Update(customer);
                 if (result.IsSuccessful)
-                {
                     return RedirectToAction(nameof(Index));
-                }
+                ModelState.AddModelError("", result.Message);
             }
 
             ViewBag.Hotels = new SelectList(_hotelService.GetList(), "Id", "Name");
-            ViewBag.Rooms = new SelectList(_roomService.GetList(r => r.IsEmpty == true), "Id", "RoomNo");
+            ViewBag.Rooms = new SelectList(_roomService.GetList(), "Id", "RoomNo");
             ViewBag.Countries = new SelectList(_countryService.GetList(), "Id", "Name");
             ViewBag.Cities = new SelectList(_cityService.GetList(), "Id", "Name");
 

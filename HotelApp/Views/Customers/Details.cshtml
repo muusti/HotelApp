@@ -11,16 +11,16 @@
     <hr />
     <dl class="row">
         <dt class="col-2">
-            @Html.DisplayNameFor(model => model.NameDisplay)
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd class="col-10">
-            @Html.DisplayFor(model => model.NameDisplay)
+            @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class="col-2">
-            @Html.DisplayNameFor(model => model.LastNameDisplay)
+            @Html.DisplayNameFor(model => model.LastName)
         </dt>
         <dd class="col-10">
-            @Html.DisplayFor(model => model.LastNameDisplay)
+            @Html.DisplayFor(model => model.LastName)
         </dd>
         <dt class="col-2">
             @Html.DisplayNameFor(model => model.DateOfBirthDisplay)
@@ -34,35 +34,53 @@
         <dd class="col-10">
             @Html.DisplayFor(model => model.GenderDisplay)
         </dd>
-         <dt class="col-2">
-            @Html.DisplayNameFor(model => model.EmailDisplay)
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.Email)
         </dt>
         <dd class="col-10">
-            @Html.DisplayFor(model => model.EmailDisplay)
+            @Html.DisplayFor(model => model.Email)
         </dd>
-            <dt class="col-2">
-            @Html.DisplayNameFor(model => model.AddressDisplay)
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.Address)
         </dt>
         <dd class="col-10">
-            @Html.DisplayFor(model => model.AddressDisplay)
+            @Html.DisplayFor(model => model.Address)
         </dd>
-            <dt class="col-2">
-            @Html.DisplayNameFor(model => model.IdentificationNoDisplay)
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.IdentificationNo)
         </dt>
         <dd class="col-10">
-            @Html.DisplayFor(model => model.IdentificationNoDisplay)
+            @Html.DisplayFor(model => model.IdentificationNo)
         </dd>
-            <dt class="col-2">
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt class="col-2">
             @Html.DisplayNameFor(model => model.Country.Name)
         </dt>
         <dd class="col-10">
             @Html.DisplayFor(model => model.Country.Name)
         </dd>
-            <dt class="col-2">
+        <dt class="col-2">
             @Html.DisplayNameFor(model => model.City.Name)
         </dt>
         <dd class="col-10">
             @Html.DisplayFor(model => model.City.Name)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.CustomerRoomHotelNameDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.CustomerRoomHotelNameDisplay)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.CustomerRoomRoomNoDisplay)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(model => model.CustomerRoomRoomNoDisplay)
         </dd>
     </dl>
 </div>

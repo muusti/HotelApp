@@ -20,7 +20,8 @@ namespace DataAccess.Services
             return base.Query().Include(u => u.Role)
                 .Include(u => u.UserDetails)
                 .Include(u => u.UserDetails.Country)
-                .Include(u => u.UserDetails.City);
+                .Include(u => u.UserDetails.City)
+                .OrderBy(u => u.Role.Name);
         }
 
         public override Result Add(User entity, bool save = true)

@@ -1,4 +1,5 @@
-﻿@model DataAccess.Entities.Customer
+﻿@using DataAccess.Enums
+@model DataAccess.Entities.Customer
 
 @{
     ViewData["Title"] = "Edit";
@@ -11,50 +12,125 @@
 <div class="row">
     <div class="col-12">
         <form asp-action="Edit">
-		@Html.AntiForgeryToken()
+            @Html.AntiForgeryToken()
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="row mb-3">
                 <label asp-for="Name" class="col-2 col-form-label"></label>
-				<div class="col-5">
-					<input asp-for="Name" class="form-control" />
-					<span asp-validation-for="Name" class="text-danger"></span>
-				</div>
+                <div class="col-5">
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
             </div>
             <div class="row mb-3">
                 <label asp-for="LastName" class="col-2 col-form-label"></label>
-				<div class="col-5">
-					<input asp-for="LastName" class="form-control" />
-					<span asp-validation-for="LastName" class="text-danger"></span>
-				</div>
+                <div class="col-5">
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
             </div>
             <div class="row mb-3">
                 <label asp-for="DateOfBirth" class="col-2 col-form-label"></label>
-				<div class="col-5">
-					<input asp-for="DateOfBirth" class="form-control" />
-					<span asp-validation-for="DateOfBirth" class="text-danger"></span>
-				</div>
+                <div class="col-5">
+                    <input asp-for="DateOfBirth" class="form-control" />
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
             </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+
+                <input type="radio" asp-for="Gender" value="@((int)Gender.Male)" checked /> @Gender.Male
+                <input type="radio" asp-for="Gender" value="@((int)Gender.Women)" /> @Gender.Women
+
+            </div>
+
             <div class="row mb-3">
-                <label asp-for="Gender" class="col-2 col-form-label"></label>
-				<div class="col-5">
-					<input asp-for="Gender" class="form-control" />
-					<span asp-validation-for="Gender" class="text-danger"></span>
-				</div>
+                <label asp-for="PhoneNumber" class="col-2 col-form-label"></label>
+                <div class="col-5">
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
             </div>
-			
-		@*	<div class="row mb-3">
-				<label asp-for=""
-			</div>*@
+
+            <div class="row mb-3">
+                <label asp-for="IdentificationNo" class="col-2 col-form-label"></label>
+                <div class="col-5">
+                    <input asp-for="IdentificationNo" class="form-control" />
+                    <span asp-validation-for="IdentificationNo" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="Email" class="col-2 col-form-label"></label>
+                <div class="col-5">
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="Address" class="col-2 col-form-label"></label>
+                <div class="col-5">
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CountryId" class="control-label"></label>
+                <select asp-for="CountryId" class="form-control" asp-items="ViewBag.Countries" id="countryselect">
+                    <option value="">-- Select --</option>
+                </select>
+                <span asp-validation-for="CountryId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CityId" class="control-label"></label>
+                <select asp-for="CityId" class="form-control cityselect" asp-items="ViewBag.Cities">
+                    <option value="">-- Select --</option>
+                </select>
+                <span asp-validation-for="CityId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="HotelIds" class="control-label"></label>
+                <select asp-for="HotelIds" class="form-control" asp-items="ViewBag.Hotels" id="hotelselect">
+                    <option value="">-- Select --</option>
+                </select>
+                <span asp-validation-for="HotelIds" class="text-danger"></span>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="RoomIds" class="control-label"></label>
+                <select asp-for="RoomIds" class="form-control roomselect" asp-items="ViewBag.Rooms">
+                    <option value="">-- Select --</option>
+                </select>
+                <span asp-validation-for="RoomIds" class="text-danger"></span>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="DateOfEntryDisplay2" class="col-2 col-form-label"></label>
+                <div class="col-5">
+                    <input asp-for="DateOfEntryDisplay2" class="form-control" />
+                    <span asp-validation-for="DateOfEntryDisplay2" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="ReleaseDateDisplay2" class="col-2 col-form-label"></label>
+                <div class="col-5">
+                    <input asp-for="ReleaseDateDisplay2" class="form-control" />
+                    <span asp-validation-for="ReleaseDateDisplay2" class="text-danger"></span>
+                </div>
+            </div>
 
             <input type="hidden" asp-for="Id" />
             <div class="row mb-3">
-				<div class="offset-2 col-5">
-					<input type="submit" value="Save" class="btn btn-primary" />
-					&nbsp;&nbsp;
+                <div class="offset-2 col-5">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    &nbsp;&nbsp;
                     <button type="reset" class="btn btn-outline-primary">Reset</button>
-					&nbsp;&nbsp;
-					<a asp-action="Index">Back to List</a>
-				</div>
+                    &nbsp;&nbsp;
+                    <a asp-action="Index">Back to List</a>
+                </div>
             </div>
         </form>
     </div>

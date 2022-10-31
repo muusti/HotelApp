@@ -58,39 +58,12 @@ namespace DataAccess.Entities
     public partial class Customer
     {
         [NotMapped]
-        [DisplayName("Name")]
-        public string? NameDisplay { get; set; }
-
-        [NotMapped]
-        [DisplayName("Last Name")]
-        public string? LastNameDisplay { get; set; }
-
-        [NotMapped]
         [DisplayName("Date Of Birth")]
         public string? DateOfBirthDisplay { get; set; }
 
         [NotMapped]
         [DisplayName("Gender")]
         public string? GenderDisplay { get; set; }
-
-        [StringLength(250)]
-        [EmailAddress]
-        [DisplayName("E-Mail")]
-        [NotMapped]
-        public string? EmailDisplay { get; set; }
-
-        [Phone]
-        [DisplayName("Phone Number")]
-        [NotMapped]
-        public string? PhoneNumberDisplay { get; set; }
-
-        [DisplayName("Identification Number")]
-        [NotMapped]
-        public string? IdentificationNoDisplay { get; set; }
-
-        [DisplayName("Adrress")]
-        [NotMapped]
-        public string? AddressDisplay { get; set; }
 
         [DisplayName("Room No")]
         [NotMapped]
