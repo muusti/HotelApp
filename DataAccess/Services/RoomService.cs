@@ -4,6 +4,7 @@ using DataAccess.Contexts;
 using DataAccess.Entities;
 using DataAccess.Services.Bases;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DataAccess.Services
 {
@@ -34,14 +35,34 @@ namespace DataAccess.Services
                     WeeklyPriceDisplay = r.DailyPrice != null ? (r.DailyPrice * 6).Value.ToString("C2") : "",
                     CustomerRoom = r.CustomerRoom,
                     DailyPrice = r.DailyPrice,
+
                 });
         }
 
         public override Result Add(Room entity, bool save = true)
         {
             if (Query().Any(r => r.RoomNo == entity.RoomNo && r.HotelId == entity.HotelId))
-                return new ErrorResult("Room with same name exists");
+                return new ErrorResult("Room with same Room No exists");
             return base.Add(entity, save);
+        }
+
+        public override Result Update(Room entity, bool save = true)
+        {
+            if (Query().Any(r => r.RoomNo == entity.RoomNo && r.HotelId == entity.HotelId && r.Id != entity.Id))
+                return new ErrorResult("Error Update, Room with same Room No exists");
+
+            var room = Query().SingleOrDefault(r => r.Id == entity.Id);
+            _dbContext.Set<RoomFeatures>().RemoveRange(room.RoomFeatures);
+
+            return base.Update(entity, save);
+        }
+
+        public override Result Delete(Expression<Func<Room, bool>> predicate, bool save = true)
+        {
+            var room = Query().SingleOrDefault(predicate);
+            _dbContext.Set<RoomFeatures>().RemoveRange(room.RoomFeatures);
+
+            return base.Delete(predicate, save);
         }
     }
 }

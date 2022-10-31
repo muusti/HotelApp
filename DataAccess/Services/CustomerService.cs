@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -74,8 +75,8 @@ namespace DataAccess.Services
 
         public override Result Update(Customer entity, bool save = true)
         {
-            if (Query().Any(c => c.IdentificationNo == entity.IdentificationNo.Trim() && c.Id != entity.Id))
-                return new ErrorResult("The Identification No you entered exists");
+            //if (Query().Any(c => c.IdentificationNo == entity.IdentificationNo.Trim() && c.Id != entity.Id))
+            //    return new ErrorResult("The Identification No you entered exists");
 
             var customer = Query().SingleOrDefault(c => c.Id == entity.Id);
             _dbContext.Set<CustomerRoom>().RemoveRange(customer.CustomerRoom);
@@ -88,6 +89,14 @@ namespace DataAccess.Services
             }).ToList();
 
             return base.Update(entity, save);
+        }
+
+        public override Result Delete(Expression<Func<Customer, bool>> predicate, bool save = true)
+        {
+            var customer = Query().SingleOrDefault(predicate);
+            _dbContext.Set<CustomerRoom>().RemoveRange(customer.CustomerRoom);
+
+            return base.Delete(predicate, save);
         }
     }
 }

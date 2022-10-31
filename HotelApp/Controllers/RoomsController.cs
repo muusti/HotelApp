@@ -10,6 +10,7 @@ using DataAccess.Entities;
 using DataAccess.Services.Bases;
 using AppCore.DataAccsess.Results;
 using AppCore.DataAccsess.Results.Bases;
+using DataAccess.Enums;
 
 namespace HotelApp.Controllers
 {

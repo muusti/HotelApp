@@ -1,4 +1,5 @@
-﻿@model DataAccess.Entities.Room
+﻿@using DataAccess.Enums
+@model DataAccess.Entities.Room
 
 @{
     ViewData["Title"] = "Create";
@@ -11,63 +12,73 @@
 <div class="row">
     <div class="col-12">
         <form asp-action="Create">
-		@Html.AntiForgeryToken()
+            @Html.AntiForgeryToken()
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="row mb-3">
                 <label asp-for="RoomNo" class="col-2 col-form-label"></label>
-				<div class="col-5">
-					<input asp-for="RoomNo" class="form-control" />
-					<span asp-validation-for="RoomNo" class="text-danger"></span>
-				</div>
+                <div class="col-5">
+                    <input asp-for="RoomNo" class="form-control" />
+                    <span asp-validation-for="RoomNo" class="text-danger"></span>
+                </div>
             </div>
             <div class="row mb-3">
-				<label asp-for="IsEmpty" class="col-2 col-form-label"></label>
-				<div class="col-5" style="padding-top: 7px;">
-					<input class="form-check-input" asp-for="IsEmpty" />
+                <label asp-for="IsEmpty" class="col-2 col-form-label"></label>
+                <div class="col-5" style="padding-top: 7px;">
+                    <input class="form-check-input" asp-for="IsEmpty" />
                 </div>
             </div>
 
-			   <div class="row mb-3">
+            <div class="row mb-3">
                 <label asp-for="RoomFeatures.m2" class="col-2 col-form-label"></label>
-				<div class="col-5">
-					<input asp-for="RoomFeatures.m2" class="form-control" />
-					<span asp-validation-for="RoomFeatures.m2" class="text-danger"></span>
-				</div>
+                <div class="col-5">
+                    <input asp-for="RoomFeatures.m2" class="form-control" />
+                    <span asp-validation-for="RoomFeatures.m2" class="text-danger"></span>
+                </div>
             </div>
 
-			   <div class="row mb-3">
-                <label asp-for="RoomFeatures.RoomType" class="col-2 col-form-label"></label>
-				<div class="col-5">
-					<input asp-for="RoomFeatures.RoomType" class="form-control" />
-					<span asp-validation-for="RoomFeatures.RoomType" class="text-danger"></span>
-				</div>
+            <div class="form-group">
+
+                <label asp-for="RoomFeatures.RoomType" class="control-label" class="form-label"></label>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+
+                <input type="radio" asp-for="RoomFeatures.RoomType" value="@((int)RoomType.Basic)" /> @RoomType.Basic
+                &nbsp&nbsp
+                <input type="radio" asp-for="RoomFeatures.RoomType" value="@((int)RoomType.Standart)" checked /> @RoomType.Standart
+                &nbsp&nbsp
+                <input type="radio" asp-for="RoomFeatures.RoomType" value="@((int)RoomType.Lux)" /> @RoomType.Lux
+                &nbsp&nbsp
+                <input type="radio" asp-for="RoomFeatures.RoomType" value="@((int)RoomType.UltraLuks)" /> @RoomType.UltraLuks
+                <span asp-validation-for="RoomFeatures.RoomType" class="text-danger"></span>
             </div>
 
 
             <div class="row mb-3">
                 <label asp-for="DailyPrice" class="col-2 col-form-label"></label>
-				<div class="col-5">
-					<input asp-for="DailyPrice" class="form-control" />
-					<span asp-validation-for="DailyPrice" class="text-danger"></span>
-				</div>
+                <div class="col-5">
+                    <input asp-for="DailyPrice" class="form-control" />
+                    <span asp-validation-for="DailyPrice" class="text-danger"></span>
+                </div>
             </div>
             <div class="row mb-3">
                 <label asp-for="HotelId" class="col-2 col-form-label"></label>
-				<div class="col-5">
-					<select asp-for="HotelId" class="form-control" asp-items="ViewBag.HotelId">
-						<option value="">-- Select --</option>
-					</select>
-					<span asp-validation-for="HotelId" class="text-danger"></span>
-				</div>
+                <div class="col-5">
+                    <select asp-for="HotelId" class="form-control" asp-items="ViewBag.HotelId">
+                        <option value="">-- Select --</option>
+                    </select>
+                    <span asp-validation-for="HotelId" class="text-danger"></span>
+                </div>
             </div>
+
+
+
             <div class="row mb-3">
-				<div class="offset-2 col-5">
-					<input type="submit" value="Save" class="btn btn-primary" />
-					&nbsp;&nbsp;
+                <div class="offset-2 col-5">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    &nbsp;&nbsp;
                     <button type="reset" class="btn btn-outline-primary">Reset</button>
-					&nbsp;&nbsp;
-					<a asp-action="Index">Back to List</a>
-				</div>
+                    &nbsp;&nbsp;
+                    <a asp-action="Index">Back to List</a>
+                </div>
             </div>
         </form>
     </div>

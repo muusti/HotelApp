@@ -18,5 +18,7 @@ namespace DataAccess.Entities
 
         public List<Customer>? Customer { get; set; }
         public List<Hotel>? Hotels { get; set; }
+        public List<UserDetails>? UserDetails { get; set; }
+
     }
 }

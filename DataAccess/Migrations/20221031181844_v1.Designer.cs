@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(Db))]
-    [Migration("20221030113741_v2")]
-    partial class v2
+    [Migration("20221031181844_v1")]
+    partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -278,6 +278,11 @@ namespace DataAccess.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
                     b.Property<int?>("CityId")
                         .IsRequired()
                         .HasColumnType("int");
@@ -338,13 +343,13 @@ namespace DataAccess.Migrations
                     b.HasOne("DataAccess.Entities.Customer", "Customer")
                         .WithMany("CustomerRoom")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DataAccess.Entities.Room", "Room")
                         .WithMany("CustomerRoom")
                         .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -407,15 +412,15 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.Entities.UserDetails", b =>
                 {
                     b.HasOne("DataAccess.Entities.City", "City")
-                        .WithMany()
+                        .WithMany("UserDetails")
                         .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DataAccess.Entities.Country", "Country")
-                        .WithMany()
+                        .WithMany("UserDetails")
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DataAccess.Entities.User", "User")
@@ -436,6 +441,8 @@ namespace DataAccess.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("Hotels");
+
+                    b.Navigation("UserDetails");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Country", b =>
@@ -445,6 +452,8 @@ namespace DataAccess.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("Hotels");
+
+                    b.Navigation("UserDetails");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Customer", b =>

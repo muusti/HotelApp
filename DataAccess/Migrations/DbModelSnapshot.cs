@@ -410,15 +410,15 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.Entities.UserDetails", b =>
                 {
                     b.HasOne("DataAccess.Entities.City", "City")
-                        .WithMany()
+                        .WithMany("UserDetails")
                         .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DataAccess.Entities.Country", "Country")
-                        .WithMany()
+                        .WithMany("UserDetails")
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DataAccess.Entities.User", "User")
@@ -439,6 +439,8 @@ namespace DataAccess.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("Hotels");
+
+                    b.Navigation("UserDetails");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Country", b =>
@@ -448,6 +450,8 @@ namespace DataAccess.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("Hotels");
+
+                    b.Navigation("UserDetails");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Customer", b =>

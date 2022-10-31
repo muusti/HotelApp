@@ -16,6 +16,12 @@ namespace HotelApp.Controllers
 
         public IActionResult Seed()
         {
+            _db.UserDetails.RemoveRange(_db.UserDetails.ToList());
+
+            _db.Users.RemoveRange(_db.Users.ToList());
+
+            _db.Roles.RemoveRange(_db.Roles.ToList());
+            _db.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Roles', RESEED, 0)");
 
             var city = _db.Cities.ToList();
             _db.Cities.RemoveRange(city);
@@ -34,13 +40,6 @@ namespace HotelApp.Controllers
 
             var customer = _db.Customers.ToList();
             _db.Customers.RemoveRange(customer);
-
-            _db.UserDetails.RemoveRange(_db.UserDetails.ToList());
-
-            _db.Users.RemoveRange(_db.Users.ToList());
-
-            _db.Roles.RemoveRange(_db.Roles.ToList());
-            _db.Database.ExecuteSqlRaw("DBCC CHECKIDENT ('Roles', RESEED, 0)");
 
 
             _db.Countries.Add(new Country()
@@ -83,7 +82,6 @@ namespace HotelApp.Controllers
                    new City()
                    {
                        Name = "Berlin"
-
                    }
 
                }
@@ -91,6 +89,53 @@ namespace HotelApp.Controllers
             });
 
             _db.SaveChanges();
+
+
+            _db.Roles.Add(new Role()
+            {
+                Name = "admin",
+            });
+            _db.SaveChanges();
+
+            _db.Roles.Add(new Role()
+            {
+                Name = "user",
+                Users = new List<User>()
+                {
+                   new User()
+                   {
+                       UserName = "musti2",
+                       Password = "musti2",
+                       IsActive = true,
+                       UserDetails = new UserDetails()
+                       {
+                           Email = "mm@m",
+                           Gender = Gender.Male,
+                           CountryId = _db.Countries.SingleOrDefault(c=>c.Name == "Türkiye").Id,
+                           CityId = _db.Cities.SingleOrDefault(c=> c.Name == "Ankara").Id,
+                           Address = "aaaaa"
+                       }
+
+                   }
+                }
+            });
+
+            _db.Users.Add(new User()
+            {
+                UserName = "musti",
+                Password = "musti",
+                UserDetails = new UserDetails()
+                {
+                    Email = "m@m",
+                    CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Türkiye").Id,
+                    CityId = _db.Cities.SingleOrDefault(c => c.Name == "Ankara").Id,
+                    Address = "aaaaaaaaa",
+                    Gender = Gender.Male
+                },
+                IsActive = true,
+                RoleId = _db.Roles.SingleOrDefault(r => r.Name == "admin").Id
+
+            });
 
             _db.Hotels.Add(new Hotel()
             {
@@ -226,11 +271,12 @@ namespace HotelApp.Controllers
                         {
                             m2 = 50,
                             RoomType= RoomType.Lux
-                        }
+                        },
 
                     }
                 }
             });
+
             _db.SaveChanges();
 
             _db.Customers.Add(new Customer()
@@ -337,54 +383,6 @@ namespace HotelApp.Controllers
                          ReleaseDate = DateTime.Parse("01/01/2019")
                     }
                 }
-
-            });
-
-            _db.Roles.Add(new Role()
-            {
-                Name = "admin",
-            });
-            _db.SaveChanges();
-
-            _db.Roles.Add(new Role()
-            {
-                Name = "user",
-                Users = new List<User>()
-                {
-                   new User()
-                   {
-                       UserName = "musti2",
-                       Password = "musti2",
-                       IsActive = true,
-                       UserDetails = new UserDetails()
-                       {
-                           Email = "mm@m",
-                           Gender = Gender.Male,
-                           CountryId = _db.Countries.SingleOrDefault(c=>c.Name == "Türkiye").Id,
-                           CityId = _db.Cities.SingleOrDefault(c=> c.Name == "Ankara").Id,
-                           Address = "aaaaa"
-                       }
-
-                   }
-                }
-            });
-
-
-
-            _db.Users.Add(new User()
-            {
-                UserName = "musti",
-                Password = "musti",
-                UserDetails = new UserDetails()
-                {
-                    Email = "m@m",
-                    CountryId = _db.Countries.SingleOrDefault(c => c.Name == "Türkiye").Id,
-                    CityId = _db.Cities.SingleOrDefault(c => c.Name == "Ankara").Id,
-                    Address = "aaaaaaaaa",
-                    Gender = Gender.Male
-                },
-                IsActive = true,
-                RoleId = _db.Roles.SingleOrDefault(r => r.Name == "admin").Id
 
             });
 
