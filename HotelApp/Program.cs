@@ -4,11 +4,20 @@ using DataAccess.Contexts;
 using DataAccess.Services;
 using DataAccess.Services.Bases;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+#region Localization
+List<CultureInfo> cultures = new List<CultureInfo>()
+{
+    new CultureInfo("en-US")
+};
+
+#endregion
 
 builder.Services.AddControllersWithViews().AddJsonOptions(x =>
 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -38,6 +47,15 @@ builder.Services.AddScoped<RoleServiceBase, RoleService>();
 #endregion
 
 var app = builder.Build();
+
+#region Localization
+app.UseRequestLocalization(new RequestLocalizationOptions()
+{
+    DefaultRequestCulture = new RequestCulture(cultures.FirstOrDefault().Name),
+    SupportedCultures = cultures,
+    SupportedUICultures = cultures,
+});
+#endregion
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

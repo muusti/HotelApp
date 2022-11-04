@@ -31,7 +31,7 @@
             <div class="row mb-3">
                 <label asp-for="DateOfBirth" class="col-2 col-form-label"></label>
                 <div class="col-5">
-                    <input asp-for="DateOfBirth" class="form-control" />
+                    <input asp-for="DateOfBirth" type="text" class="form-control datepicker" />
                     <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                 </div>
             </div>
@@ -109,7 +109,7 @@
             <div class="row mb-3">
                 <label asp-for="DateOfEntryDisplay2" class="col-2 col-form-label"></label>
                 <div class="col-5">
-                    <input asp-for="DateOfEntryDisplay2" class="form-control" />
+                    <input asp-for="DateOfEntryDisplay2" type="text" class="form-control datepicker" />
                     <span asp-validation-for="DateOfEntryDisplay2" class="text-danger"></span>
                 </div>
             </div>
@@ -117,7 +117,7 @@
             <div class="row mb-3">
                 <label asp-for="ReleaseDateDisplay2" class="col-2 col-form-label"></label>
                 <div class="col-5">
-                    <input asp-for="ReleaseDateDisplay2" class="form-control" />
+                    <input asp-for="ReleaseDateDisplay2" type="text" class="form-control datepicker" />
                     <span asp-validation-for="ReleaseDateDisplay2" class="text-danger"></span>
                 </div>
             </div>
@@ -138,7 +138,18 @@
 
 @section Scripts{
 
+    <link href="/lib/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"> </script>
+
+    <script>
+        $(function() {
+            $(".datepicker").datepicker({
+                autoclose: true,
+                todayHighlight: true
+            });
+        });
+    </script>
 
     <script>
         $(function() {
@@ -149,7 +160,7 @@
                     $.ajax({
                         cache: false,
                         dataType: "json",
-                        url: "/Cities/GetJson", 
+                        url: "/Cities/GetJson",
                         data: { countryId: selectedCountryId },
                         type: "get",
                         success: function(cities) {
@@ -171,7 +182,7 @@
         });
     </script>
 
-        <script>
+    <script>
         $(function() {
             $("#hotelselect").change(function() {
                 $(".roomselect").empty();
