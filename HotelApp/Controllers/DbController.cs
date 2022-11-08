@@ -299,8 +299,8 @@ namespace HotelApp.Controllers
                     new CustomerRoom()
                     {
                         RoomId = _db.Rooms.SingleOrDefault(r => r.RoomNo == 200).Id,
-                         DateOfEntry = DateTime.Parse("25/06/2020"),
-                         ReleaseDate = DateTime.Parse("30/06/2020")
+                         DateOfEntry = DateTime.Parse("06/25/2020"),
+                         ReleaseDate = DateTime.Parse("06/30/2020")
                     },
                 }
 

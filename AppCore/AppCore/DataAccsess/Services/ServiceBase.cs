@@ -84,7 +84,7 @@ namespace AppCore.DataAccsess.Services
                 return new SuccessResult("Added Successfully.");
             }
 
-            return new ErrorResult("_errorMessage");
+            return new ErrorResult(_errorMessage);
         }
 
         public virtual Result Update(TEntity entity, bool save = true)
@@ -97,7 +97,7 @@ namespace AppCore.DataAccsess.Services
                 return new SuccessResult("Updated Successfully.");
             }
 
-            return new ErrorResult("_errorMessage");
+            return new ErrorResult(_errorMessage);
         }
 
         public virtual Result Delete(TEntity entity, bool save = true)

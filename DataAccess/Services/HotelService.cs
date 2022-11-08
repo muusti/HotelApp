@@ -4,14 +4,17 @@ using DataAccess.Contexts;
 using DataAccess.Entities;
 using DataAccess.Services.Bases;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DataAccess.Services
 {
     public class HotelService : HotelServiceBase
     {
-        public HotelService(Db db) : base(db)
-        {
+        private readonly RoomServiceBase _roomService;
 
+        public HotelService(Db db, RoomServiceBase roomService) : base(db)
+        {
+            _roomService = roomService;
         }
 
         public override IQueryable<Hotel> Query()
@@ -46,6 +49,19 @@ namespace DataAccess.Services
             if (result.IsSuccessful)
                 result.Message = "Product added succesfully";
             return result;
+        }
+
+        public override Result Delete(Expression<Func<Hotel, bool>> predicate, bool save = true)
+        {
+            var hotel = Query().SingleOrDefault(predicate);
+            var rooms = _roomService.GetList(r => r.HotelId == hotel.Id);
+            //_dbContext.Set<RoomFeatures>().RemoveRange(hotel.Rooms.Select(r => r.RoomFeatures));
+            //_dbContext.Set<Room>().RemoveRange(hotel.Rooms);
+            foreach (var room in rooms)
+            {
+                _roomService.Delete(room.Id);
+            }
+            return base.Delete(predicate, save);
         }
 
 

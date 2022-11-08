@@ -1,0 +1,13 @@
+﻿@model List<Hotel>
+<ul class="navbar-nav">
+    <li>
+        <a asp-action="Index" asp-controller="Report" >All Hotels</a>
+    </li>
+    @foreach (var hotel in Model)
+    {
+        <li>
+            <a asp-action="Index" asp-controller="Report"  asp-route-Filter.HotelId="@hotel.Id"> @hotel.Name</a>
+        </li>
+
+    }
+</ul>

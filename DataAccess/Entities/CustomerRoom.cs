@@ -21,7 +21,6 @@ namespace DataAccess.Entities
         public DateTime? DateOfEntry { get; set; }
 
         [DisplayName("Hotel Check-Out Date")]
-
         public DateTime? ReleaseDate { get; set; }
     }
 }

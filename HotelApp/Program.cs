@@ -1,5 +1,3 @@
-using Business.ServicesDemo;
-using Business.ServicesDemo.Bases;
 using DataAccess.Contexts;
 using DataAccess.Services;
 using DataAccess.Services.Bases;
@@ -43,6 +41,7 @@ builder.Services.AddScoped<CustomerServiceBase, CustomerService>();
 builder.Services.AddScoped<UserServiceBase, UserService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<RoleServiceBase, RoleService>();
+builder.Services.AddScoped<IReportServiceBase, ReportService>();
 
 #endregion
 
