@@ -125,17 +125,20 @@ namespace HotelApp.Controllers
 
         public IActionResult Delete(int id)
         {
-            var result = _customerService.Delete(c => c.Id == id);
-            TempData["Message"] = result.Message;
-            return RedirectToAction(nameof(Index));
+            Customer customer = _customerService.GetItem(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            return View(customer);
         }
 
-        // POST: Customers/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            // TODO: Add delete service logic here
+            var result = _customerService.Delete(c => c.Id == id);
+            TempData["Message"] = result.Message;
             return RedirectToAction(nameof(Index));
         }
     }

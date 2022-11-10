@@ -13,13 +13,6 @@ namespace DataAccess.Services.Bases
         {
         }
 
-        public Result Delete1(Room room)
-        {
 
-            _dbContext.Set<RoomFeatures>().RemoveRange(room.RoomFeatures);
-            _dbContext.Set<Room>().Remove(room);
-
-            return new SuccessResult();
-        }
     }
 }

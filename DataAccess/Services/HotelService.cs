@@ -47,7 +47,7 @@ namespace DataAccess.Services
 
             var result = base.Add(entity, save);
             if (result.IsSuccessful)
-                result.Message = "Product added succesfully";
+                result.Message = "Hotel added succesfully";
             return result;
         }
 
@@ -55,15 +55,27 @@ namespace DataAccess.Services
         {
             var hotel = Query().SingleOrDefault(predicate);
             var rooms = _roomService.GetList(r => r.HotelId == hotel.Id);
-            //_dbContext.Set<RoomFeatures>().RemoveRange(hotel.Rooms.Select(r => r.RoomFeatures));
-            //_dbContext.Set<Room>().RemoveRange(hotel.Rooms);
-            foreach (var room in rooms)
-            {
-                _roomService.Delete(room.Id);
-            }
+            var roomFeatures = rooms.Select(r => r.RoomFeatures);
+
+            _dbContext.Set<RoomFeatures>().RemoveRange(roomFeatures);
+            _dbContext.Set<Room>().RemoveRange(hotel.Rooms);
+
             return base.Delete(predicate, save);
+
         }
 
+        public override Result Delete(Hotel entity, bool save = true)
+        {
+            var rooms = _roomService.GetList(r => r.HotelId == entity.Id);
+            var roomFeatures = rooms.Select(r => r.RoomFeatures);
+
+            _dbContext.Entry<Hotel>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+
+            _dbContext.Set<RoomFeatures>().RemoveRange(roomFeatures);
+            _dbContext.Set<Room>().RemoveRange(entity.Rooms);
+
+            return base.Delete(entity, save);
+        }
 
     }
 }

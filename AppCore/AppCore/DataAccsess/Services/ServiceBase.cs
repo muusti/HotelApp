@@ -77,7 +77,6 @@ namespace AppCore.DataAccsess.Services
         public virtual Result Add(TEntity entity, bool save = true)
         {
             _dbContext.Set<TEntity>().Add(entity);
-            _dbContext.SaveChanges();
             if (save) // save false olduğu zaman değişikliği veri tabanına kaydetmez sadece obje üzerinde değişiklik yapar 
             {
                 Save();// objedeki değişikleri tek sefer de yazabilmek için bool veri tipi tanımladık birden fazla işlem yapacaksak değişiklikleri yaptıkdan sonra tek bir sefer save methodu çağırarak performanstan tasarruf etmiş oluruz 
@@ -90,7 +89,6 @@ namespace AppCore.DataAccsess.Services
         public virtual Result Update(TEntity entity, bool save = true)
         {
             _dbContext.Set<TEntity>().Update(entity);
-            _dbContext.SaveChanges();
             if (save) // save false olduğu zaman değişikliği veri tabanına kaydetmez sadece obje üzerinde değişiklik yapar 
             {
                 Save();// objedeki değişikleri tek sefer de yazabilmek için bool veri tipi tanımladık birden fazla işlem yapacaksak değişiklikleri yaptıkdan sonra tek bir sefer save methodu çağırarak performanstan tasarruf etmiş oluruz 
