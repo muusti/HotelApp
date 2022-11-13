@@ -1,5 +1,6 @@
 ﻿using AppCore.DataAccsess.Results;
 using AppCore.DataAccsess.Results.Bases;
+using AppCore.Utils;
 using DataAccess.Contexts;
 using DataAccess.Entities;
 using DataAccess.Services.Bases;
@@ -33,7 +34,10 @@ namespace DataAccess.Services
                     CountryId = h.CountryId,
                     Rooms = h.Rooms,
                     City = h.City,
-                    Country = h.Country
+                    Country = h.Country,
+                    Image= h.Image,
+                    ImageExtension= h.ImageExtension,
+                    ImageTagSrcDisplay = h.Image != null ? FileUtil.GetContentType(h.ImageExtension, true, true) + Convert.ToBase64String(h.Image) : null
                 });
         }
 
@@ -42,13 +46,25 @@ namespace DataAccess.Services
             if (Query().Any(h => h.Name.ToLower() == entity.Name.ToLower().Trim()))
                 return new ErrorResult("The Name You entered exists");
 
-
             entity.Name = entity.Name.Trim();
 
             var result = base.Add(entity, save);
             if (result.IsSuccessful)
                 result.Message = "Hotel added succesfully";
+
             return result;
+        }
+
+        public override Result Update(Hotel entity, bool save = true)
+        {
+            var hotel = Query().SingleOrDefault(h=> h.Id == entity.Id);
+            if (entity.Image == null)
+            {
+                entity.Image = hotel.Image;
+                entity.ImageExtension = hotel.ImageExtension;
+            }
+
+            return base.Update(entity, save);
         }
 
         public override Result Delete(Expression<Func<Hotel, bool>> predicate, bool save = true)

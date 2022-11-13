@@ -9,6 +9,11 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+@if(TempData["Message"] != null)
+{
+    <p class="text-primary">@TempData["Messsage"]</p>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -23,6 +28,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th class="thwidth">
+                @Html.DisplayNameFor(model => model.ImageTagSrcDisplay)
             </th>
             <th></th>
         </tr>
@@ -42,6 +50,12 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Country.Name)
+                </td>
+                <td>
+                    @if (!string.IsNullOrWhiteSpace(item.ImageTagSrcDisplay))
+                    {
+                        <img src="@item.ImageTagSrcDisplay" class="img-thumbnail" />
+                    }
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

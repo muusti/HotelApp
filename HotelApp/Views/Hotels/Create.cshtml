@@ -9,7 +9,7 @@
 <h4>Hotel</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-12">
         <form asp-action="Create">
             @Html.AntiForgeryToken()
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -39,7 +39,16 @@
             </div>
 
             <div class="form-group">
+                <label asp-for="Image" class="col-2 col-form-label"></label>
+                <div class="col-5">
+                    <input type="file" class="form-control" name="hotelImage" />
+                </div>
+            </div>
+
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                &nbsp;&nbsp;
+                <button type="reset" class="btn btn-outline-primary">Reset</button>
             </div>
         </form>
     </div>
@@ -55,8 +64,8 @@
     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"> </script>
 
     <script>
-        $(function() {
-            $("#countryselect").change(function() {
+        $(function () {
+            $("#countryselect").change(function () {
                 $(".cityselect").empty();
                 var selectedCountryId = $("#countryselect").val();
                 if (selectedCountryId != "") {
@@ -66,14 +75,14 @@
                         url: "/Cities/GetJson",
                         data: { countryId: selectedCountryId },
                         type: "get",
-                        success: function(cities) {
+                        success: function (cities) {
                             $(".cityselect").append('<option value="">-- Select City --</option>');
 
                             for (var i = 0; i < cities.length; i++) {
                                 $(".cityselect").append('<option value="' + cities[i].id + '">' + cities[i].name + '</option>');
                             }
                         },
-                        error: function() {
+                        error: function () {
                             alert("An error occured during AJAX request");
                         }
 

@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using DataAccess.Contexts;
 using DataAccess.Entities;
 using DataAccess.Services.Bases;
+using NuGet.Common;
+using AppCore.Utils;
+using HotelApp.Settings;
 
 namespace HotelApp.Controllers
 {
@@ -24,7 +27,7 @@ namespace HotelApp.Controllers
             _countryService = countryService;
             _cityService = cityService;
         }
-      
+
 
         public IActionResult Index()
         {
@@ -55,23 +58,62 @@ namespace HotelApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Hotel hotel)
+        public IActionResult Create(Hotel hotel, IFormFile? hotelImage)
         {
             if (ModelState.IsValid)
             {
-                var result = _hotelService.Add(hotel);
+                var updateResult = UpdateImage(hotel, hotelImage);
+                if (updateResult == false)
+                    ModelState.AddModelError("", "File extension and length are you valid");
 
-                if (result.IsSuccessful)
+                else
                 {
-                    TempData["Message"] = result.Message;
-                    return RedirectToAction(nameof(Index));
+
+                    var result = _hotelService.Add(hotel);
+
+                    if (result.IsSuccessful)
+                    {
+                        TempData["Message"] = result.Message;
+                        return RedirectToAction(nameof(Index));
+                    }
+                    ModelState.AddModelError("", result.Message);
                 }
-                ModelState.AddModelError("", result.Message);
             }
+
             ViewData["CityId"] = new SelectList(_cityService.GetList(), "Id", "Name", hotel.CityId);
             ViewData["CountryId"] = new SelectList(_countryService.GetList(), "Id", "Name", hotel.CountryId);
             return View(hotel);
         }
+
+        private bool? UpdateImage(Hotel entity, IFormFile uploadedFile)
+        {
+            #region Validation
+            bool? result = null;
+            if (uploadedFile != null && uploadedFile.Length > 0)
+            {
+                result = FileUtil.CheckFileExtension(uploadedFile.FileName, AppSettings.FileExtensions).IsSuccessful;
+                if (result == true)
+                {
+                    result = FileUtil.CheckFileLength(uploadedFile.Length, AppSettings.FileLength).IsSuccessful; 
+                }
+            }
+            #endregion
+
+            #region Dosyanın Kaydedilmesi
+            if (result == true)
+            {
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    uploadedFile.CopyTo(memoryStream);
+                    entity.Image = memoryStream.ToArray();
+                    entity.ImageExtension = Path.GetExtension(uploadedFile.FileName);
+                }
+            }
+            #endregion
+
+            return result;
+        }
+
 
         public IActionResult Edit(int id)
         {

@@ -1,6 +1,9 @@
 ﻿using AppCore.Records.Bases;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace DataAccess.Entities
 {
@@ -27,6 +30,20 @@ namespace DataAccess.Entities
 
         public List<Room>? Rooms { get; set; }
 
+
+        [JsonIgnore]
+        [Column(TypeName = "image")]
+        public byte[]? Image { get; set; }
+
+        [JsonIgnore]
+        [StringLength(5)]
+        public string? ImageExtension { get; set; }
+
+
+
+        [NotMapped]
+        [DisplayName("Image")]
+        public string? ImageTagSrcDisplay { get; set; }
 
     }
 }
