@@ -9,6 +9,12 @@
 <p>
     <a class="btn btn-outline-success" asp-action="Create">Create New</a>
 </p>
+
+@if (TempData["Message"] != null)
+{
+    <p class="text-primary">@TempData["Message"]</p>
+}
+
 <table class="table table-hover">
     <thead class="table-dark">
         <tr>

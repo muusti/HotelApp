@@ -87,7 +87,6 @@ namespace HotelApp.Controllers
 
         private bool? UpdateImage(Hotel entity, IFormFile uploadedFile)
         {
-            #region Validation
             bool? result = null;
             if (uploadedFile != null && uploadedFile.Length > 0)
             {
@@ -97,9 +96,7 @@ namespace HotelApp.Controllers
                     result = FileUtil.CheckFileLength(uploadedFile.Length, AppSettings.FileLength).IsSuccessful;
                 }
             }
-            #endregion
 
-            #region Dosyanın Kaydedilmesi
             if (result == true)
             {
                 using (MemoryStream memoryStream = new MemoryStream())
@@ -109,7 +106,6 @@ namespace HotelApp.Controllers
                     entity.ImageExtension = Path.GetExtension(uploadedFile.FileName);
                 }
             }
-            #endregion
 
             return result;
         }
