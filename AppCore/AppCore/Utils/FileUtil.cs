@@ -11,9 +11,9 @@ namespace AppCore.Utils
         {
             _mimeTypes = new Dictionary<string, string>()
             {
-                {".jpg", "image/jpeg" },
-                {".jpeg", "image/jpeg" },
-                {".png", "image/png" }
+                { ".jpg", "image/jpeg" },
+                { ".jpeg", "image/jpeg" },
+                { ".png", "image/png" }
             };
         }
 
@@ -27,27 +27,24 @@ namespace AppCore.Utils
             if (includeBase64)
                 contentType = contentType + ";base64,";
             return contentType;
-
         }
 
         public static Result CheckFileExtension(string fileName, string acceptedFileExtensions, char seperator = ',')
         {
-            Result result = new ErrorResult("Invalid file extension");
-
+            Result result = new ErrorResult("Invalid file extension!");
             string fileExtension = Path.GetExtension(fileName);
-            string[] acceptedExtension = acceptedFileExtensions.Split(seperator);
-
-            if (acceptedExtension.Any(ae => ae.Trim().ToLower() == fileExtension.ToLower()))
-                result = new SuccessResult("Valid file extension");
+            string[] acceptedExtensions = acceptedFileExtensions.Split(seperator);
+            if (acceptedExtensions.Any(ae => ae.Trim().ToLower() == fileExtension.ToLower()))
+                result = new SuccessResult("Valid file extension.");
             return result;
         }
+
 
         public static Result CheckFileLength(double fileLengthBytes, double acceptedLengthInMegaBytes)
         {
             if (fileLengthBytes > acceptedLengthInMegaBytes * Math.Pow(1024, 2))
-                return new ErrorResult("Invalid file length");
-
-            return new SuccessResult("Valid file length");
+                return new ErrorResult("Invalid file length!");
+            return new SuccessResult("Valid file length.");
         }
     }
 }

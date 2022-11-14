@@ -1,4 +1,4 @@
-﻿@model DataAccess.Entities.Hotel
+﻿@model Hotel
 
 @{
     ViewData["Title"] = "Create";
@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-12">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
@@ -45,18 +45,21 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                &nbsp;&nbsp;
-                <button type="reset" class="btn btn-outline-primary">Reset</button>
+            <div class="row mb-3">
+                <div class="col-5">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                    &nbsp;&nbsp;&nbsp;
+                    <button type="reset" class="btn btn-outline-danger">Reset</button>
+                    &nbsp;&nbsp;&nbsp;
+                    <a class="btn btn-outline-primary" asp-action="Index">Back to List</a>
+
+                </div>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 
 @section Scripts{

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DataAccess.Entities.Hotel>
+﻿@model IEnumerable<Hotel>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,15 +7,16 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-outline-success" asp-action="Create">Create New</a>
 </p>
-@if(TempData["Message"] != null)
+
+@if (TempData["Message"] != null)
 {
     <p class="text-primary">@TempData["Messsage"]</p>
 }
 
-<table class="table">
-    <thead>
+<table class="table table-hover">
+    <thead class="table-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -54,16 +55,37 @@
                 <td>
                     @if (!string.IsNullOrWhiteSpace(item.ImageTagSrcDisplay))
                     {
-                        <img src="@item.ImageTagSrcDisplay" class="img-thumbnail" />
+                        <img src="@item.ImageTagSrcDisplay" width="50" height="50" />
                     }
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Edit </a>
+                        <a href="#" class="btn btn-outline-danger" onclick="deleteItem(@item.Id)" title="Delete">Delete</a>
+                    }
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
+@section Scripts {
+    <link href="~/lib/AlertifyJS/css/alertify.min.css" rel="stylesheet" />
+    <script src="~/lib/AlertifyJS/alertify.min.js"></script>
+
+    <script>
+        function deleteItem(id) {
+            alertify.confirm("Warning!",
+                "If you delete this hotel, all room records for this hotel will also be deleted.",
+                function () { // OK
+                    window.location.href = "/Hotels/Delete/" + id;
+                },
+                function () { // Cancel
+
+                }
+            ).set('labels', { ok: 'Yes', cancel: 'No' });
+        }
+    </script>
+}

@@ -9,10 +9,11 @@ using DataAccess.Contexts;
 using DataAccess.Entities;
 using DataAccess.Services.Bases;
 using Microsoft.AspNetCore.Authorization;
+using AppCore.DataAccsess.Results;
 
 namespace HotelApp.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize]
     public class CustomersController : Controller
     {
         private readonly CustomerServiceBase _customerService;
@@ -32,13 +33,14 @@ namespace HotelApp.Controllers
             _cityService = cityService;
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "admin")]
         public IActionResult Index()
         {
             List<Customer> customerList = _customerService.GetList();
             return View(customerList);
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult Details(int id)
         {
             Customer customer = _customerService.GetItem(id);
@@ -49,7 +51,6 @@ namespace HotelApp.Controllers
             return View(customer);
         }
 
-        [AllowAnonymous]
         public IActionResult Create()
         {
 
@@ -60,8 +61,6 @@ namespace HotelApp.Controllers
             return View();
         }
 
-
-        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Customer customer)
@@ -73,7 +72,11 @@ namespace HotelApp.Controllers
                 if (result.IsSuccessful)
                 {
                     TempData["Message"] = result.Message;
-                    return RedirectToAction(nameof(Index));
+                    if (User.IsInRole("admin"))
+                        return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Create));
+
+
                 }
                 ModelState.AddModelError("", result.Message);
             }
@@ -84,7 +87,7 @@ namespace HotelApp.Controllers
             return View(customer);
         }
 
-
+        [Authorize(Roles = "admin")]
         public IActionResult Edit(int id)
         {
             Customer customer = _customerService.GetItem(id);
@@ -102,7 +105,7 @@ namespace HotelApp.Controllers
 
         }
 
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Customer customer)
@@ -123,23 +126,13 @@ namespace HotelApp.Controllers
             return View(customer);
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult Delete(int id)
-        {
-            Customer customer = _customerService.GetItem(id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-            return View(customer);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
         {
             var result = _customerService.Delete(c => c.Id == id);
             TempData["Message"] = result.Message;
             return RedirectToAction(nameof(Index));
         }
+
     }
 }

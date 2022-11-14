@@ -25,7 +25,9 @@ namespace DataAccess.Models
 
         [DisplayName("Room No")]
         public string? RoomNo { get; set; }
-        public string? IsEmpty { get; set; }
+
+        [DisplayName("Room Count")]
+        public string? RoomCount { get; set; }
 
         public int? CustomerId { get; set; }
         public int? RoomId { get; set; }

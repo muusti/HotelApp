@@ -107,18 +107,6 @@ namespace HotelApp.Controllers
 
         public IActionResult Delete(int id)
         {
-            User user = _userService.GetItem(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return View(user);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
-        {
             var result = _userService.Delete(u => u.Id == id);
             TempData["Message"] = result.Message;
             return RedirectToAction(nameof(Index));

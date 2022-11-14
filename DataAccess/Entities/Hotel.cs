@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace DataAccess.Entities
 {
-    public class Hotel : RecordBase
+    public partial class Hotel : RecordBase
     {
         [Required(ErrorMessage = "{0} is required")]
         [StringLength(50)]
@@ -40,7 +40,10 @@ namespace DataAccess.Entities
         public string? ImageExtension { get; set; }
 
 
+    }
 
+    public partial class Hotel
+    {
         [NotMapped]
         [DisplayName("Image")]
         public string? ImageTagSrcDisplay { get; set; }

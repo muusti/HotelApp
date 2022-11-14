@@ -35,13 +35,13 @@ namespace DataAccess.Services
                             RoomNo = r.RoomNo.ToString(),
                             DateOfEntryDisplay = cr.DateOfEntry.Value.ToString("MM/dd/yyyy"),
                             ReleaseDateDisplay = cr.ReleaseDate.Value.ToString("MM/dd/yyyy"),
-                            IsEmpty = r.CustomerRoom.All(cr => cr.ReleaseDate == null || cr.ReleaseDate < DateTime.Today) == true ? "Empty" : "Not Empty",
                             Star = h.Star.ToString(),
                             DateOfEntry = cr.DateOfEntry,
                             ReleaseDate = cr.ReleaseDate,
                             CustomerId = c.Id,
                             HotelId = h.Id,
                             RoomId = r.Id,
+                            RoomCount = h.Rooms.Count().ToString(),
 
                         };
 

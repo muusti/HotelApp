@@ -1,4 +1,4 @@
-﻿@model DataAccess.Entities.Hotel
+﻿@model Hotel
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -36,16 +36,24 @@
                 </select>
                 <span asp-validation-for="CountryId" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="Image" class="col-2 col-form-label"></label>
+                    <input type="file" class="form-control" name="hotelImage" />
+            </div>
+
+            <a class="btn btn-danger" href="/Hotels/DeleteImage/@Model.Id">Delete Image</a>
+
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-success" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-outline-primary" asp-action="Index">Back to List</a>
 </div>
 
 
@@ -54,8 +62,8 @@
     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"> </script>
 
     <script>
-        $(function() {
-            $("#countryselect").change(function() {
+        $(function () {
+            $("#countryselect").change(function () {
                 $(".cityselect").empty();
                 var selectedCountryId = $("#countryselect").val();
                 if (selectedCountryId != "") {
@@ -65,14 +73,14 @@
                         url: "/Cities/GetJson",
                         data: { countryId: selectedCountryId },
                         type: "get",
-                        success: function(cities) {
+                        success: function (cities) {
                             $(".cityselect").append('<option value="">-- Select City --</option>');
 
                             for (var i = 0; i < cities.length; i++) {
                                 $(".cityselect").append('<option value="' + cities[i].id + '">' + cities[i].name + '</option>');
                             }
                         },
-                        error: function() {
+                        error: function () {
                             alert("An error occured during AJAX request");
                         }
 

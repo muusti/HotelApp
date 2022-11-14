@@ -94,7 +94,7 @@ namespace HotelApp.Controllers
                 result = FileUtil.CheckFileExtension(uploadedFile.FileName, AppSettings.FileExtensions).IsSuccessful;
                 if (result == true)
                 {
-                    result = FileUtil.CheckFileLength(uploadedFile.Length, AppSettings.FileLength).IsSuccessful; 
+                    result = FileUtil.CheckFileLength(uploadedFile.Length, AppSettings.FileLength).IsSuccessful;
                 }
             }
             #endregion
@@ -132,18 +132,26 @@ namespace HotelApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Hotel hotel)
+        public IActionResult Edit(Hotel hotel, IFormFile? hotelImage)
         {
 
             if (ModelState.IsValid)
             {
-                var result = _hotelService.Update(hotel);
-                if (result.IsSuccessful)
+                var updateResult = UpdateImage(hotel, hotelImage);
+                if (updateResult == false)
                 {
-                    TempData["Message"] = result.Message;
-                    return RedirectToAction(nameof(Index));
+                    ModelState.AddModelError("", "File extension and length are you valid");
                 }
-                ModelState.AddModelError("", result.Message);
+                else
+                {
+                    var result = _hotelService.Update(hotel);
+                    if (result.IsSuccessful)
+                    {
+                        TempData["Message"] = result.Message;
+                        return RedirectToAction(nameof(Index));
+                    }
+                    ModelState.AddModelError("", result.Message);
+                }
             }
 
             ViewData["CityId"] = new SelectList(_cityService.GetList(), "Id", "Name", hotel.CityId);
@@ -153,23 +161,15 @@ namespace HotelApp.Controllers
 
         public IActionResult Delete(int id)
         {
-            Hotel hotel = _hotelService.GetItem(id);
-
-            if (hotel == null)
-            {
-                return NotFound();
-            }
-
-            return View(hotel);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
-        {
             var result = _hotelService.Delete(h => h.Id == id);
             TempData["Message"] = result.Message;
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult DeleteImage(int id)
+        {
+            _hotelService.DeleteImage(id);
+            return RedirectToAction(nameof(Details), new { id });
         }
 
     }

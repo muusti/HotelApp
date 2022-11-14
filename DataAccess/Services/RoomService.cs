@@ -67,7 +67,6 @@ namespace DataAccess.Services
 
         public override Result Delete(Room entity, bool save = true)
         {
-
             _dbContext.Set<RoomFeatures>().RemoveRange(entity.RoomFeatures);
             return base.Delete(entity, save);
         }

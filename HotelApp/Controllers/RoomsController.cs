@@ -101,21 +101,10 @@ namespace HotelApp.Controllers
 
         public IActionResult Delete(int id)
         {
-            Room room = _roomService.GetItem(id);
-            if (room == null)
-            {
-                return NotFound();
-            }
-            return View(room);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
-        {
             var result = _roomService.Delete(r => r.Id == id);
             TempData["Message"] = result.Message;
             return RedirectToAction(nameof(Index));
         }
+
     }
 }

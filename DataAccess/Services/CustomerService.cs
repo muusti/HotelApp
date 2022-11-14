@@ -25,7 +25,7 @@ namespace DataAccess.Services
         {
             return base.Query()
                 .Include(c => c.CustomerRoom)
-                .OrderBy(c=> c.Name)
+                .OrderBy(c => c.Name)
                  .Select(c => new Customer()
                  {
                      Id = c.Id,
@@ -94,7 +94,8 @@ namespace DataAccess.Services
         public override Result Delete(Expression<Func<Customer, bool>> predicate, bool save = true)
         {
             var customer = Query().SingleOrDefault(predicate);
-            _dbContext.Set<CustomerRoom>().RemoveRange(customer.CustomerRoom);
+            if (customer.CustomerRoom.Count > 0 && customer.CustomerRoom != null)
+                _dbContext.Set<CustomerRoom>().RemoveRange(customer.CustomerRoom);
 
             return base.Delete(predicate, save);
         }

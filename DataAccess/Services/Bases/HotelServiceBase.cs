@@ -12,5 +12,14 @@ namespace DataAccess.Services.Bases
 
         }
 
+    
+        public void DeleteImage(int id)
+        {
+            var hotel = Query().SingleOrDefault(h => h.Id == id);
+            hotel.Image = null;
+            hotel.ImageExtension = null;
+            base.Update(hotel);
+        }
+
     }
 }

@@ -1,6 +1,7 @@
 using DataAccess.Contexts;
 using DataAccess.Services;
 using DataAccess.Services.Bases;
+using HotelApp.Settings;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,15 @@ List<CultureInfo> cultures = new List<CultureInfo>()
 };
 
 #endregion
+
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
+
+var section = builder.Configuration.GetSection(nameof(AppSettings));
+section.Bind(new AppSettings());
 
 builder.Services.AddControllersWithViews().AddJsonOptions(x =>
 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -68,6 +78,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();

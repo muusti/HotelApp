@@ -1,4 +1,4 @@
-﻿@model DataAccess.Entities.Hotel
+﻿@model Hotel
 
 @{
     ViewData["Title"] = "Details";
@@ -40,16 +40,27 @@
         <dd class="col-sm-10">
             @foreach (var room in Model.Rooms)
             {
-                @room.RoomNo   
-                @room.IsEmpty  
-                @room.DailyPrice 
+                @room.RoomNo
+                @room.IsEmpty
+                @room.DailyPrice
                 <br />
             }
         </dd>
-
+        <dt class="col-2">
+            @Html.DisplayNameFor(model => model.ImageTagSrcDisplay)
+        </dt>
+        <dd class="col-3">
+            @if (!string.IsNullOrWhiteSpace(Model.ImageTagSrcDisplay))
+            {
+                <img src="@Model.ImageTagSrcDisplay" width="50" height="50">
+            }
+        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @if (User.IsInRole("admin"))
+    {
+        <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
+    }
+    <a class="btn btn-outline-primary" asp-action="Index">Back to List</a>
 </div>

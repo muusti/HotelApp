@@ -18,5 +18,11 @@
   "library": "datatables@1.10.21",
   "destination": "wwwroot/lib/datatables/"
 }
+,
+{
+  "provider": "cdnjs",
+  "library": "AlertifyJS@1.13.1",
+  "destination": "wwwroot/lib/AlertifyJS/"
+}
 ]
 }
