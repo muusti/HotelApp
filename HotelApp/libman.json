@@ -24,5 +24,11 @@
   "library": "AlertifyJS@1.13.1",
   "destination": "wwwroot/lib/AlertifyJS/"
 }
+,
+{
+  "provider": "cdnjs",
+  "library": "font-awesome@6.2.0",
+  "destination": "wwwroot/lib/font-awesome/"
+}
 ]
 }

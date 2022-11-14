@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - HotelApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/HotelApp.styles.css" asp-append-version="true" />
 </head>
@@ -52,6 +53,10 @@
                                 <a class="nav-link text-light" asp-area="" asp-controller="Report" asp-action="Index">Report</a>
                             </li>
                         }
+                        <li class="nav-item">
+                            <a asp-action="GetFavorite" asp-controller="Favorite"> Favorites </a>
+                        </li>
+
                     </ul>
 
                     <div class="navbar-text">
@@ -62,7 +67,7 @@
                                     @if (User.Identity.IsAuthenticated)
                                     {
                                         <li class="nav-item">
-                                            <span class="text-secondary"><i class="fa-solid fa-user"></i> &nbsp; @User.Identity.Name </span>
+                                            <span class="text-secondary"> <i class="fa-regular fa-user"></i> &nbsp; @User.Identity.Name </span>
                                         </li>
 
                                         <li class="nav-item">
