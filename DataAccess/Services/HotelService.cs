@@ -22,9 +22,11 @@ namespace DataAccess.Services
         public override IQueryable<Hotel> Query()
         {
             return base.Query()
-                .Include(c => c.Country)
-                .Include(c => c.City)
-                .OrderBy(h => h.Star)
+                .Include(h => h.Country)
+                .Include(h => h.City)
+                .Include(h => h.Rooms)
+                .ThenInclude(r => r.RoomFeatures)
+                .OrderByDescending(h => h.Star)
                 .ThenByDescending(h => h.Name)
                 .Select(h => new Hotel()
                 {
@@ -46,7 +48,7 @@ namespace DataAccess.Services
         {
             if (Query().Any(h => h.Name.ToLower() == entity.Name.ToLower().Trim()))
                 return new ErrorResult("The Name You entered exists");
-            
+
             entity.Name = entity.Name.Trim();
 
             var result = base.Add(entity, save);
@@ -71,9 +73,8 @@ namespace DataAccess.Services
         public override Result Delete(Expression<Func<Hotel, bool>> predicate, bool save = true)
         {
             var hotel = Query().SingleOrDefault(predicate);
-            var rooms = _roomService.GetList(r => r.HotelId == hotel.Id);
-            var roomFeatures = rooms.Select(r => r.RoomFeatures).ToList();
-            if (hotel.Rooms.Count > 0)
+       
+            if (hotel.Rooms.Count > 0 && hotel.Rooms != null)
             {
                 foreach (var room in hotel.Rooms.ToList())
                 {
@@ -81,27 +82,8 @@ namespace DataAccess.Services
                 }
                 Save();
             }
-            //_dbContext.Set<RoomFeatures>().RemoveRange(hotel.Rooms.Select(r => r.RoomFeatures).ToList());
-            //_dbContext.Set<Room>().RemoveRange(hotel.Rooms.ToList());
-
+            
             return base.Delete(predicate, save);
-
-        }
-
-        public override Result Delete(Hotel entity, bool save = true)
-        {
-
-            _dbContext.Entry<Hotel>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
-
-            ////_dbContext.Set<RoomFeatures>().RemoveRange(entity.Rooms.Select(r => r.RoomFeatures).ToList());
-            ////_dbContext.Set<Room>().RemoveRange(entity.Rooms.ToList());
-
-            //foreach (var room in entity.Rooms.ToList())
-            //{
-            //    _roomService.Delete(room, false);
-            //}
-
-            return base.Delete(entity, save);
         }
 
     }
