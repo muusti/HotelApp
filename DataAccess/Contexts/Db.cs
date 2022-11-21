@@ -30,19 +30,6 @@ namespace DataAccess.Contexts
             modelBuilder.Entity<CustomerRoom>()
             .HasKey(cr => new { cr.CustomerId, cr.RoomId });
 
-
-            //modelBuilder.Entity<CustomerRoom>()
-            //    .HasOne(cr => cr.Customer)
-            //    .WithMany(c => c.CustomerRoom)
-            //    .HasForeignKey(cr => cr.CustomerId)
-            //    .OnDelete(DeleteBehavior.NoAction);
-
-            //modelBuilder.Entity<CustomerRoom>()
-            // .HasOne(cr => cr.Room)
-            // .WithMany(r => r.CustomerRoom)
-            // .HasForeignKey(cr => cr.RoomId)
-            // .OnDelete(DeleteBehavior.NoAction);
-
             modelBuilder.Entity<Room>()
                 .HasOne(r => r.Hotel)
                 .WithMany(h => h.Rooms)

@@ -73,17 +73,21 @@ namespace DataAccess.Services
         public override Result Delete(Expression<Func<Hotel, bool>> predicate, bool save = true)
         {
             var hotel = Query().SingleOrDefault(predicate);
-       
+
             if (hotel.Rooms.Count > 0 && hotel.Rooms != null)
-            {
-                foreach (var room in hotel.Rooms.ToList())
-                {
-                    _roomService.Delete(room, false);
-                }
-                Save();
-            }
-            
+                RoomsDelete(hotel.Rooms.ToList());
+
             return base.Delete(predicate, save);
+        }
+
+        private void RoomsDelete(List<Room> rooms)
+        {
+            foreach (var room in rooms)
+            {
+                _roomService.Delete(room, false);
+            }
+            Save();
+
         }
 
     }
