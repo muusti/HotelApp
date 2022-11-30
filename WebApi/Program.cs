@@ -1,4 +1,6 @@
 using DataAccess.Contexts;
+using DataAccess.Services;
+using DataAccess.Services.Bases;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -24,6 +26,9 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 //IoC Container.
 var connectionString = builder.Configuration.GetConnectionString("HotelAppDb");
 builder.Services.AddDbContext<Db>(options => options.UseSqlServer(connectionString));
+builder.Services.AddScoped<HotelServiceBase, HotelService>();
+builder.Services.AddScoped<RoomServiceBase, RoomService>();
+builder.Services.AddScoped<CountryServiceBase, CountryService>();
 
 
 builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -35,8 +40,8 @@ builder.Services.AddSwaggerGen();
 #region CORS (Cross Origin Resource Sharing)
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder =>
-    builder.AllowAnyOrigin()
+    options.AddDefaultPolicy(builder => builder
+    .AllowAnyOrigin()
     .AllowAnyHeader()
     .AllowAnyMethod()
     );
